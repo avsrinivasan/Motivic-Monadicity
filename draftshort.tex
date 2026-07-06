@@ -210,7 +210,7 @@
 \maketitle
 
 \begin{abstract}
-    This paper demonstrates a monadicity result for the adjunction between the suspension spectrum and zeroth space functors in motivic stable homotopy theory. 
+    This paper demonstrates a homotopical monadicity result for the adjunction between the suspension spectrum and zeroth space functors in motivic stable homotopy theory. 
     By collecting enough preliminary results, we are able to plug motivic stable homotopy theory 
     into the general monadicity theorem of \cite{KMZ25} to deduce the main results. This pursuit requires the verification of 
     six properties of simplicial motivic homotopy theory, the hardest of which is a weak commutativity result between the zeroth space functor and realization of simplicial motivic spectra.
@@ -224,10 +224,11 @@
 
 At the crux of stable homotopy theory is the adjunction between the suspension spectrum and zeroth space functors. The same is true in motivic stable homotopy theory. This article analyzes the monadic structure of that stable adjunction in motivic homotopy theory. Consider a left adjoint functor $F \colon \aC \rtarr \aD$ with right adjoint $G \colon \aD \rtarr \aC$. The functor $\GA \colon = GF$ on $\aC$ has a canonical monad structure, where the product is induced by the counit $\epz$ of the adjunction.
 $\GA$ is called the \emph{adjunction monad}. Let $\GA[\aC]$ denote the category of $\GA$-algebras in $\aC$. For every $Y \in \aD$, $GY$ has a canonical $\GA$-action given by $G\epz$, and as such $G$ induces a functor $G_{\GA} \colon \aD \rtarr \GA[\aC]$.
-$G_{\GA}$ is also a right adjoint, with a left adjoint $F_{\GA}$. This left adjoint is quite distinct from $F$---it is a coequalized version of $F$ with respect to $\GA$-actions. The \emph{monadicity} 
-of the adjunction $(F,G)$, in the general sense that we use the word here, will refer to the extent to which the right adjoint $G_{\GA} \colon \aD \rtarr \GA[\aC]$ is an equivalence of categories.
-The result in \cite{Beck25} provides conditions for $(F_{\GA},G_{\GA})$ to be an adjoint equivalence. The resulting property is often called Beck monadicity or \emph{classical} monadicity.
-However in many settings, including ours, the conditions for classical monadicity fail and a specificized homotopical approach is more enlightening. The recent framework of \cite{KMZ25} provides one roadmap to such a form of \emph{homotopical} monadicity. Roughly speaking, this paper here establishes that the stable adjunction in motivic homotopy theory is monadic \emph{up to linked $\bA^1$-homotopy}. The analogous result in topology has roots dating back to \cite{May72,May09Einfty}, but is dealt more carefully in the general framework in \cite{KMZ25}. The approach here is to collect enough results to plug motivic stable homotopy theory 
+
+%$G_{\GA}$ is also a right adjoint, with a left adjoint $F_{\GA}$. This left adjoint is quite distinct from $F$---it is a coequalized version of $F$ with respect to $\GA$-actions. 
+The \emph{monadicity} of the adjunction $(F,G)$, in the general sense that we use the word here, will refer to the extent to which the functor $G_{\GA} \colon \aD \rtarr \GA[\aC]$ is an equivalence of categories.
+The result in \cite{Beck25} provides necessary and sufficient conditions for $G_{\GA}$ to be an equivalence on the nose. This result is often called \emph{classical} monadicity.
+However in many settings, including ours, the conditions for classical monadicity fail and a specificized homotopical approach is more enlightening as to the monadicity of an adjunction. The recent framework of \cite{KMZ25} provides one roadmap to such a form of \emph{homotopical} monadicity. Roughly speaking, this paper here establishes that the stable adjunction in motivic homotopy theory is monadic \emph{up to linked $\bA^1$-homotopy}. The analogous result in topology has roots dating back to \cite{May72,May09Einfty}, but is dealt more carefully in the general framework in \cite{KMZ25}. The approach here is to collect enough results to plug motivic stable homotopy theory 
 into the machine of \cite{KMZ25}. Through our development, we resolve what may be an important step towards a conjectural operadic recognition principle for motivic infinite loop spaces \cite{vopen}.
 
 Let $\sT$ denote the Morel-Voevodsky model category of algebraic spaces, this will be our category of \emph{spaces}. In analogy with sequential $\OM$-spectra in topology, by \emph{spectra} we could pick Voevodsky's coordinatized $\bT$-spectra. However, for convenience with respect to the loop and suspension adjunction, we instead must work in a coordinate-free setting developed by \cite{Hu03}.
