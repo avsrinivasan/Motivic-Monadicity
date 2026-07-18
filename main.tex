@@ -1,0 +1,432 @@
+\documentclass{amsart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{amsthm}
+\usepackage[style=alphabetic,maxnames=99,minalphanames=3,maxalphanames=4]{biblatex}
+\usepackage{mathrsfs}
+\usepackage{outlines}
+\usepackage{tikz-cd}
+\usepackage{todonotes}
+\usepackage{lacromay}
+\usepackage[hidelinks, colorlinks=true,linkcolor=MidnightBlue, citecolor=ForestGreen, urlcolor=Violet]{hyperref}
+\AtBeginBibliography{\footnotesize}
+\renewcommand*{\labelalphaothers}{$^{+}$}
+\setcounter{tocdepth}{3}% to get subsubsections in toc
+
+\let\oldtocsection=\tocsection
+
+\let\oldtocsubsection=\tocsubsection
+
+\let\oldtocsubsubsection=\tocsubsubsection
+
+\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
+\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
+\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
+
+\title{The Motivic Homotopical Monadicity Theorem}
+\author{Ajay Srinivasan}
+\address{\scriptsize{Department of Mathematics, University of Southern California, Los Angeles, CA 90007}}
+\email{avsriniv@usc.edu}
+\date{\today}
+
+\addbibresource{biblio.bib}
+
+\let\fullref\autoref
+
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+
+
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{sta}{Statement}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{rems}{Remarks}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{assn}{Assumption}%
+\makeautorefname{asses}{Assumptions}%
+\makeautorefname{countcom}{Assumption}%
+\makeautorefname{countcoms}{Assumptions}%
+\makeautorefname{countmcom}{Assumption}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{sta}{Statement}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}[defn]{Question}
+\newtheorem{rem}{Remark}[section]
+\newtheorem{rems}{Remarks}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+\newtheorem{assn}{Assumption}[section]
+\newtheorem{asses}{Assumptions}[section]
+
+\newtheorem*{asses:monad}{Assumptions \ref{asses:monad}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand{\Cmon}{C}
+\newcommand{\Cpre}{C^{\mathrm{pre}}}
+\newcommand{\sLU}{\mathscr{L}_{U}}
+
+\newcommand{\TG}{\sT_G}
+\newcommand{\UG}{\ul{G\sU_{\ast}}}
+
+\newcommand{\FdashG}{\sF[G\sT]}
+\newcommand{\PIdashG}{\PI[G\sT]}
+
+\newcommand{\FsubG}{\sF_G[\ul{G\sT}]}
+\newcommand{\PIsubG}{\PI_G[\ul{G\sT}]}
+
+\newcommand{\DdashG}{\sD[\ul{G\sT}]}
+\newcommand{\DsubG}{\sD_G[\ul{G\sT}]}
+
+\newcommand{\EdashG}{\sE[\ul{G\sT}]}
+\newcommand{\EsubG}{\sE_G[\ul{G\sT}]}
+
+\newcommand{\Dalg}{\bD\big[\PI[\ul{G\sT}]\big]}
+\newcommand{\DGalg}{\bD_G\big[\PI_G[\ul{G\sT}]\big]}
+
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\newcommand{\mI}{\mathcal{I}}
+\newcommand{\mJ}{\mathcal{J}}
+
+\newcommand{\gen}{$\bF_\bullet$}
+\newcommand{\cof}{$\bF_\bullet$}
+
+\newcommand{\lbull}{^{\bullet}S^{\star}}
+\newcommand{\lbullv}{^{\bullet}S^{V}}
+\newcommand{\lbullov}{^{\bullet}S_0^{V}}
+\newcommand{\lbullo}{^{\bullet}S_0^{\star}}
+\newcommand{\lbullvw}{^{\bullet}S^{V\oplus W}}
+
+\newcommand{\rbull}{S^{\star}{^{\bullet}}}
+\newcommand{\rbullo}{S_0^{\star}{^{\bullet}}}
+\newcommand{\rbulll}{S_1^{\star}{^{\bullet}}}
+\newcommand{\rbullov}{{S_0^V}{^{\bullet}}}
+\newcommand{\rbulllv}{{S_1^V}{^{\bullet}}}
+
+\newcommand{\rbullv}{S^{V}{^{\bullet}}}
+\newcommand{\rbullpv}{S^{V'}{^{\bullet}}}
+\newcommand{\rbullw}{S^{W}{^{\bullet}}}
+\newcommand{\rbullvw}{S^{V\oplus W}{^{\bullet}}}
+%\newcommand{\nSv}{^n\!S^V}
+%\newcommand{\nSvw}{^n\!S^{V\oplus W}}
+%\newcommand{\mSv}{^m\!S^V}
+%\newcommand{\sSv}{^s\!S^V}
+%\newcommand{\phSv}{^{\ph_j}\!S^V}
+
+\newcommand{\nSv}{^n\!(S^V)}
+\newcommand{\nSvw}{^n\!(S^{V\oplus W})}
+\newcommand{\mSv}{^m\!(S^V)}
+\newcommand{\sSv}{^s\!(S^V)}
+\newcommand{\phSv}{^{\ph_j}\!(S^V)}
+
+%\newcommand{\Svn}{S^{V}\!{^{n}}}
+%\newcommand{\Svm}{S^{V}\!{^{m}}}
+%\newcommand{\Svs}{S^{V}\!{^{s}}}
+
+\newcommand{\Svn}{(S^{V})^n}
+\newcommand{\Svm}{(S^{V})^m}
+\newcommand{\Svs}{(S^{V})^s}
+
+
+%\newcommand{\inj}{\mathcal{I}}
+\newcommand{\inj}{\vartheta}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bn}{\mathbf{n}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bs}{\mathbf{s}}
+
+\newcommand{\OGop}{G\mathscr{O}^{op}[\sT]}
+\newcommand{\Cp}{\mathbb{C}^{\mathrm{pre}}}
+
+
+\begin{document}
+
+
+\maketitle
+
+\tableofcontents
+
+\section{Introduction}\label{sec:int}
+This document is an early working draft of an article aimed at venturing towards a description of recognition principles for motivic infinite loop spaces. The work is a close collaboration in part with J.P. May, resulting from his recent work in \cite{kong2024group}, and the new understanding of a Segalic recognition principle for motivic spectra proved in \cite{EHK21}. The objective here is to understand the essence of recognition principles and the homotopical monadicity theorem (of the kind perhaps first presented in \cite{May72} or earlier) for motivic infinite loop spaces. It is known in both equivariant and non-equivariant contexts for spectra (in the homotopical contexts studied usually studied in topology) that all infinite loop space machines are naturally equivalent (see \cite{may2022equivariant} and \cite{MT78} respectively). While an operadic or a monadic understanding of recognition principles for motivic spectra has been elusive as of yet, it is our hope that with the recent axiomatization of recognition and the homotopical monadicity theorem in \cite{kong2024group}, we can concretely phrase the essence of such statements in our $\bA^1$-homotopical context.
+
+We begin toward such a description with the notion of coordinate-free motivic spectra first developed in \cite{Hu03}, modeled after the LMS and EKMM spectra created in \cite{LMS86} and \cite{EKMM97}. Preliminaries are presented in \ref{sec:prelims}, starting with Voevodsky's and Morel's constructions of the algebraic stable homotopy category and motivic spectra in \cite{MV99} and \cite{voev96pre}. In \ref{sec:assna1} we recall the construction of coordinate-free motivic spectra in \cite{Hu03}, and the $(\SI^{\infty}, \, \OM^{\infty})$ adjunction. In \ref{sec:weq_connec}, we describe the notion of connective spectra that we will use, and properties that this notion satisfies. In \ref{sec:simp}, we recount the simplicial structure associated to $\mathrm{Spectra}(S)$ and $\mathrm{Spc}(S)_{\bu}$. Collecting the ingredients from sections \ref{sec:assna1} to \ref{sec:simp}, we use the framework of \cite{kong2024group} to write down a specific recognition principle associated to the adjunction monad in \ref{sec:recprinc} and obtain an analogue of Beck monadicity in our context. The grouplike assumptions of \cite{kong2024group} are then recalled and checked in our context in \ref{sec:gplike}. In \ref{sec:assna2}, we outline the homotopical requirements for a monad that acts naturally on motivic infinite loop spaces. Finally, in \ref{sec:Recprincreal} write down a recognition principle given a monad satisfying our listed requirements. It remains to identify concrete examples of monads in nature that satisfy these requirements in our context.\\
+
+Our notation going forth will be that $\sT=\mathrm{Spc}(S)_{\bu}$ is the category of based motivic spaces over $S$ defined in \ref{sec:prelims}, and $\sS = \mathrm{Sp}(\oU)$ is the category of (coordinate-free) motivic spectra over a universe $\oU$ as defined in \ref{sec:assna1}. Furthermore, there is an adjunction $(\SI^{\infty},\OM^{\infty})$ between $\sT$ and $\sS$ described in \ref{sec:assna1} that corresponds to the notion of the suspension and loop functors in topology. Let $\GA = \OM^{\infty}\SI^{\infty}$ denote the adjunction monad in our context. $\GA$ acts naturally on the image of $\OM^{\infty}$ in $\sT$. Let $\GA[\sT]$ denote the category of $\GA$-algebras. We obtain another adjoint pair coming from our given adjunction:
+$\OM_{\GA}^{\infty} : \sS \to \GA[\sT]$ and $\SI_{\GA}^{\infty} : \GA[\sT] \to \sS$ (one may think of $\SI_{\GA}^{\infty}$ as a coequalized version of $\SI^{\infty}$ for $\GA$-algebras). We show the following.
+
+\begin{thm}[Recognition Principle for $\GA$-Algebras]\label{thm:recogprincip}
+There exists a functor $\mathrm{Bar}:\GA[\sT]\to \GA[\sT]$ written $Y \to \overline{Y}$, and a natural equivalence $\zeta: \overline{Y} \to Y$ such that the unit $\eta_{\GA} : \overline{Y} \to \OM^{\infty}_{\GA} \SI^{\infty}_{\GA}\overline{Y}$ is a weak equivalence.
+\end{thm}
+
+$\bE_{\GA} : \GA[\sT] \to \sS$ given by $\bE_{\GA}Y = \SI_{\GA}^{\infty}\overline{Y}$ provides the analogue of an infinite loop space machine in our context (although there is no need for group completions at this point). Beck monadicity here takes the following analogous form.
+
+\begin{thm}[A Homotopical Monadicity Theorem]\label{thm:charprinc}
+The pair $(\SI_{\GA}^{\infty},\OM_{\GA}^{\infty})$ induces an adjoint equivalence from the homotopy category of $\GA$-algebras in $\sT$ to the category of $\OM^{\infty}$-connective motivic spectra.
+\end{thm}
+
+Suppose we have another monad $\bC$ on $\sT$, equipped with a natural action on the image of $\OM^{\infty}$. We let $\bC[\sT]$ denote the category of $\bC$-algebras. We obtain yet another adjoint pair coming from our given adjunction: $\OM_{\bC}^{\infty} : \sS \to \bC[\sT]$ and $\SI_{\bC}^{\infty} : \bC[\sT] \to \sS$. Let $\bU_{\bC} : \bC[\sT] \to \sT$ be the forgetful functor. Let $\sH$ denote the category of homotopy commutative Hopf spaces in $\sT$. $\sH$ comes with a subcategory of grouplike spaces $\sH_{gp}$ and is equipped with a forgetful functor $\bU:\sH \to \sT$. Finally let $s\sT$ and $s\sS$ denote the categories of simplicial objects in $\sT$ and $\sS$, equipped with realization functors $|-|$ that have the properties listed in \ref{sec:simp}.
+
+\begin{asses:monad}\label{asses:monad}[Homotopical Requisites for $\bC$]
+We ask that the following be true for $\bC$.
+\begin{outline}[enumerate]
+\1 $\bF_{\bC}$ preserves weak equivalences.
+\1 $\bU_{\bC}$ factors through $\sH$ as $\bU \circ \bV$ for some $\bV : \bC[\sT] \to \sH$.
+\1 There exists a group completion functor $\bG : \bC [\sT] \to \sH_{gp}$ with a natural group completion $g : \bV Y \to \bG Y$ in $\sH$ for each $Y \in \bC[\sT]$.
+\1 For $X_{*} \in s\sT$, there exists a natural isomorphism $\bC |X_{*}| \iso |\bC X_{*}|$.
+\1 For $K_{*} \in s\sS$, the natural map $\gamma : |\OM^{\infty}K_{*}| \to \OM^{\infty}|K_{*}|$ is a map of $\bC$-algebras.
+\1 The natural map $\alpha : \bC X \to \OM^{\infty}_{\bC}\SI^{\infty}X$ is a group completion for every $X \in \sT$. 
+\end{outline}
+\end{asses:monad}
+
+We note that, generally speaking, items (1), (2), and (4) are almost entirely formal given a nice enough $\bC$, but we must list them to stay careful and precise regardless. We obtain the following result.
+
+\begin{thm}[A General Recognition Principle]
+Let $\bC$ be a monad on $\sT$ that acts naturally on the image of $\OM^{\infty}$ and that satisfies Assumptions \ref{asses:monad}. There exists a functor $\mathrm{Bar}_{\bC} : \bC [\sT] \to \bC[\sT]$ written $Y \to \overline{Y}^{\bC}$, and a natural equivalence $\zeta_{\bC} : \overline{Y}^{\bC} \to Y$ such that the unit $\eta_{\bC} : \overline{Y}^{\bC} \to \OM^{\infty}_{\bC}\SI^{\infty}_{\bC}\overline{Y}^{\bC}$ is a group completion and is therefore a weak equivalence if $Y$ is grouplike.
+\end{thm}
+
+\begin{thm}[A General Monadicity Theorem]
+For a monad $\bC$ on $\sT$ acting naturally on the image of $\OM^{\infty}$ and satisfying Assumptions \ref{asses:monad}, the pair $(\SI^{\infty}_{\bC},\OM^{\infty}_{\bC})$ induces an adjoint equivalence from the homotopy category of grouplike $\bC$-algebras in $\sT$ to the homotopy category of $\OM^{\infty}$-connective motivic spectra.
+\end{thm}
+
+\section*{Acknowledgments}
+\emph{In Progress.}
+%Words fail to express my gratitude toward Peter May for everything he has put into this program and to this project which was very much joint work with him. My heartfelt gratitude also goes out to Alicia Lima who co-advised me through this project, and helped me navigate literature on several aspects of algebraic geometry. I also benefited from several insightful discussions with Aravind Asok, Matthew Niemiro, Elden Elmanto, and Akhil Mathew. Lastly, a huge thanks to fellow participants Akash Narayanan, Yoyo Jiang, and Justin Wu for listening to my frequent elevator pitches throughout the program.
+
+\section{Preliminaries}\label{sec:prelims}
+Let $\Bbbk$ be a field, and $S$ a smooth affine scheme of finite type over $\Bbbk$. Let $\mathrm{Sm}_{S}$ denote the category of smooth finite type schemes over $S$. The following construction, whose wording at the moment seems vague (particularly what it means to be an $\bA^1$-local model structure), is what we recount in this section.
+\begin{thm}
+There exists a category $\sT = \mathrm{Spc}(S)_{\bu}$ of based motivic spaces equipped with simplicial and $\bA^1$-local Quillen model structures and a canonical map $\mathrm{Sm}_S \monoto \sT$ with the following properties.
+\begin{enumerate}
+\item Every element of $\sT$ is a colimit of elements of $\mathrm{Sm}_{S}$.
+\item Every element of $\mathrm{Sm}_S$ is small in $\sT$.
+\item Every element of $\sT$ is weak equivalent in the simplicial model structure to a homotopy colimit of finite colimits of elements in $\mathrm{Sm}_S$.
+\item Finite colimits of elements of $\mathrm{Sm}_S$ are small in the $\bA^1$-local homotopy category of $\sT$.
+\item $\sT$ is tensored and cotensored over itself.
+\end{enumerate}
+\end{thm}
+\todo[color=green!20]{Handled. See \cite{Hu03}, \cite{MV99}.}
+
+There is the following equivalent notion of weak equivalences in the $\bA^1$-local model structure. Given $X \in \sT$, we define its \emph{nth homotopy sheaf} $\pi_{n}^{\bA^1}(X)$ to be the sheaf on $\mathrm{Sm}_S$ associated to the presheaf $U \mapsto [\SI^n U_{+}, X]_{\oH_{\bA^1}}$ where $\SI$ denotes the simplicial suspension, and the homotopy class of maps is taken over the $\bA^1$-local model structure on $\sT$. For $n=0$ this is a sheaf of sets, for $n=1$ a sheaf of groups, and for $n \geq 2$ a sheaf of abelian groups.
+
+\begin{thm} 
+A map $f : X \to Y$ in $\sT$ is a weak-equivalence in the $\bA^1$-local model structure iff $\pi_n^{\bA^1}(X) \iso \pi_n^{\bA^1}(Y)$ as sheaves for every $n \in \bN$.
+\end{thm}
+\todo[color=green!20]{Handled. See \cite{MV99} or \cite{morel12A1AT}.}
+
+\section{Coordinate-Free Spectra and the $(\SI^{\infty}, \OM^{\infty})$ Adjunction}\label{sec:assna1}
+Let $S=\mathrm{Spec}(R)$ for some Noetherian integral domain $R$. Let $\oU \iso \bigoplus_{\infty}R$ be a countably infinite dimensional free $R$-module. 
+\begin{thm}
+There exist categories $\sS_{\mathrm{pre}}=\mathrm{PSp}(\oU)$ and $\sS = \mathrm{Sp}(\oU)$ of coordinate-free motivic prespectra and spectra (analogous to classical EKMM and LMS spectra) equipped with stable $\bA^1$-local Quillen model structures, and a forgetful functor $R : \sS \to \sS_{\mathrm{pre}}$. This functor has a left adjoint $L : \sS_{\mathrm{pre}} \to \sS$ called the spectrification functor, allowing us to take colimits in $\sS$ by first taking colimits in $\sS_{\mathrm{pre}}$ and passing through $L$. Moreover, $\sS$ is tensored and cotensored over $\sT$.
+\end{thm}
+\todo[color=green!20]{Handled, see \cite{Hu03}}
+
+A cofinite subspace of $\oU$ is simply a finite-codimensional split projective $R$-submodule of $\oU$. Similarly, a finite subspace of $\oU$ is a finite-dimensional split projective $R$-submodule of $\oU$. 
+
+\begin{lem}
+There exists a small directed category $\oC (\oU)$ with objects cofinite subspaces of $\oU$, and morphisms $Z : U \to V$ when $V \subseteq U$ given by finite subspaces $Z \subseteq U$ such that $V \cap Z = \{0\}$ and $V \dotplus Z = U$.
+\end{lem}
+\todo[color=green!20]{Handled, see \cite{Hu03}}
+
+\begin{thm}
+For every $V \in \oC (\oU)$, there exists an adjoint pair of functors, $\SI_{V}^{\oU} : \sT \to \sS$ and $\OM_{V}^{\oU} : \sS \to \sT$ (called the $V$-th space shift desuspension functor and the $V$-th space functor). $\OM_V^{\oU}$ is given by $\OM_V^{\oU}(E) = E_V$, while $\SI_V^{\oU}X=LD_V(X)$ where $D_V(X)_{U} = \bigvee_{Z \dotplus U = V} \SI^Z X$ (here $\SI^ZX := S^Z \land X = Z/(Z\setminus\{0\}) \land X$) for $U \in \oC(\oU)$.
+\end{thm}
+\todo[color=green!20]{Handled, see \cite{Hu03}}
+
+\noindent Hereforth we let $\OM^{\infty} := \OM_{\oU}^{\oU}$ and $\SI^{\infty} := \SI_{\oU}^{\oU}$. We note that $\OM^{\infty}$ and $\SI^{\infty}$ preserve weak equivalences.
+
+\begin{thm}
+A map $f : E \to E'$ in $\sS$ is a weak-equivalence (in the stable $\bA^1$-local model structure) iff for every $X \in \mathrm{Spc}(S)$ a finite colimit of elements in $\mathrm{Sm}_S$, and $V \in \oC(\oU)$, the map on $\bA^1$-homotopy classes \[[\SI_V^{\oU}X_{+},E]_{\oH_{\bA^1}} \to [\SI_V^{\oU}X_{+},E']_{\oH_{\bA^1}}\] \noindent induced by $f$ is a bijection.
+\end{thm}
+\todo[color=green!20]{Handled, see \cite{Hu03}}
+
+\section{$\OM^{\infty}$-Connective Spectra}\label{sec:weq_connec}
+We define a notion of $\OM^{\infty}$-connective spectra, and show that the following properties hold true.
+
+\begin{thm}
+There is a subcategory $\sS_{C} \subset \sS$, whose objects are termed $\OM^{\infty}$-connective spectra, such that a map $f:E \to E'$ in $\sS$ is a weak equivalence (in the stable $\bA^1$-local sense) iff the induced map $\OM^{\infty}f: \OM^{\infty}E \to \OM^{\infty}E'$ is a weak equivalence (in the $\bA^1$-local sense). Furthermore, $\SI^{\infty}$ takes values in $\sS_C$.
+\end{thm}
+\todo[color=green!20]{Handled. Must compare to the notion of \emph{very effective} spectra in $\bA^1$-homotopy theory. See \cite{Spitzweck2012} for defn.}
+
+\section{Simplicial Objects in $\sT$ and $\sS$}\label{sec:simp}
+We denote the category of simplicial objects in a category $\sV$ by $s\sV$.
+
+\begin{thm}
+The following hold true in our context.\footnote{Do not believe the statements in red, as of yet. I am still working through details, but one is hopeful.}
+\begin{outline}[enumerate]
+\1 There are realization functors $|-| : s\sT \to \sT$ and $|-| : s\sS \to \sS$ that are left adjoints.
+\1 The realization functors send simplicial homotopies to $\bA^1$-homotopies in the respective categories.
+\1 The realization functors preserve weak equivalences between Reedy cofibrant objects in the respective categories.%\todo[color=blue!20]{For 3, see \cite{may74perm} A.4 for a proof in AT, \cite{anderson78fib} and \cite{moerdijk2011reed} for some generality. Perhaps the simplicial structure on $\sT$ allows for some ease in checking 6.}
+\1 For $K_{*} \in s\sT$, there exists a natural isomorphism:
+$\SI^{\infty} |K_{*}| \iso |\SI^{\infty}K_{*}|$
+\1 $|-|$ on $s\sS$ takes levelwise $\OM^{\infty}$-connective objects to $\OM^{\infty}$-connective objects.
+\1 For $K_{*} \in s\sS$, there is the natural map $\gamma:|\OM^{\infty}K_{*}| \to \OM^{\infty}|K_{*}|$ given by the adjoint to the composite \[\SI^{\infty} |\OM^{\infty}K_{*}| \iso |\SI^{\infty}\OM^{\infty}K_{*}| \xrightarrow{|\varepsilon|} |K_{*}| \]
+\noindent If $K_{*} \in s\sS$ is levelwise $\OM^{\infty}$-connective, then the map $\gamma$ is a weak equivalence.
+\end{outline}
+\end{thm}
+\todo[color=green!20]{Items 1, 2, 3, 4, 5 are generally handled. See 3 and 6 in \cite{reedy73} and \cite{anderson78fib}. Rewrite Anderson's proof.}
+
+\section{The Motivic Homotopical Monadicity Theorem}\label{sec:recprinc}
+Corresponding to our adjunction monad $(\GA,\mu,\eta)$ (where $\mu : \GA \GA \to \GA$ and $\eta : \mathrm{id}_{\sT} \to \GA$), our $\GA$-functor $(\SI^{\infty},\beta)$ (here $\beta:\SI^{\infty}\GA \to \SI^{\infty}$ is the composite $\SI^{\infty}\GA \xrightarrow{\SI^{\infty}\alpha} \SI^{\infty}\OM^{\infty}\SI^{\infty} \xrightarrow{\varepsilon} \SI^{\infty}$), and a $\GA$-algebra $(Y,\theta)$ we have the monadic bar construction $B(\SI^{\infty},\GA,Y)$ given by the realization of the simplicial object in $\sS$ whose $q$-simplices are $\SI^{\infty}\GA^qY$. The face and degeneracy maps are simply provided by $\beta, \mu, \theta, \eta$. Define a functor $\mathrm{Bar} : \GA[\sT] \to \GA[\sT]$ given by $Y \mapsto B(\GA,\GA,Y) =: \overline{Y}$. Also define $\bE Y := \SI^{\infty}_{\GA}\overline{Y}$.
+
+\begin{lem}
+Given a $\GA$-algebra $Y$, the maps $\theta:\GA^{q+1}Y \to Y$ induce a natural weak equivalence $\zeta: \overline{Y} \to Y$ in $\GA[\sT]$. As a map in $\sT$, $\zeta$ has homotopy inverse $\nu : Y \to \overline{Y}$ induced by the maps $\eta:Y \to \GA^{q+1}Y$.
+\end{lem}
+\todo[color=green!20]{Handled, given all of the previous ingredients. See \cite{kong2024group}}
+
+Consider the following diagram:
+\[Y \stackrel[\nu]{\zeta}{\leftrightarrows} \overline{Y} = B(\OM^{\infty}_{\GA}\SI^{\infty},\GA,Y) \xrightarrow{\gamma} \OM^{\infty}_{\GA}B(\SI^{\infty}, \GA, Y) \iso \OM^{\infty}_{\GA} \bE Y\]
+
+\begin{thm}\label{thm:recogprincipog}
+The following hold true.
+\begin{outline}
+\1 $\zeta$ is a weak equivalence in $\sT$ with homotopy inverse $\nu : Y \to \overline{Y}$.
+\1 $\gamma$ is a weak equivalence.
+\end{outline}
+We conclude the composite $\gamma \circ \nu : Y \to \OM^{\infty}_{\GA}\bE Y$ is a weak equivalence for every $Y \in \GA [\sT]$.
+\end{thm}
+\todo[color=green!20]{Handled, given all of the previous ingredients. See \cite{kong2024group}.}
+
+The next lemma allows us to view Thm. \ref{thm:recogprincip} as a rewording of Thm. \ref{thm:recogprincipog}.
+
+\begin{lem}
+The composite in the diagram above $\overline{Y} \to \OM^{\infty}_{\GA}\SI^{\infty}_{\GA}\overline{Y}$ can be identified with the unit $\eta_{\GA} : \overline{Y} \to \OM^{\infty}_{\GA} \SI_{\GA}^{\infty}\overline{Y}$. 
+\end{lem}
+\todo[color=green!20]{Handled, given all of the previous ingredients. See \cite{kong2024group}.}
+
+\noindent Now we obtain a motivic homotopical monadicity theorem.
+
+\begin{thm}
+The pair $(\SI^{\infty}_{\GA},\OM^{\infty}_{\GA})$ induces an adjoint equivalence between the homotopy category of $\GA$-algebras and the homotopy category of connective spectra.
+\end{thm}
+
+\section{Grouplike Objects}\label{sec:gplike}
+Let $\sH$ denote the category of commutative monoidal objects in the homotopy category $\oH_{\bA^1}(\sT)$ (i.e. $\sH$ is the category of $\bA^1$-homotopy commutative associative Hopf motivic spaces). $\sH$ is equipped with a forgetful functor $\bU : \sH \to \sT$. We can say that $f$ in $\sH$ is a weak equivalence if $\bU f$ is one in $\sT$.
+
+\begin{thm}
+There is a full subcategory $\sH_{gp}$ of $\sH$, whose objects are called grouplike, and a notion of a group completion $f : X \to Y$ in $\sH$ when $Y \in \sH_{gp}$ such that the following are true.
+\begin{outline}[enumerate]
+\1 A space in $\sH$ weakly equivalent to a grouplike space is itself grouplike.
+\1 A map $f: X \to Y$ in $\sH$ between grouplike spaces is a group completion iff it is a weak equivalence.
+\1 Consider the following commutative diagram in $\sH$.
+\[\begin{tikzcd}
+X \arrow[d, "g"'] \arrow[r, "f"] & Y \arrow[d, "h"] \\
+Z \arrow[r, "j"']                & W               
+\end{tikzcd}\]
+    \2 If $Z$ and $W$ are grouplike and $f$ and $j$ are weak equivalences, then $g$ is a group completion iff $h$ is a group completion.
+    \2 If $Z$ and $W$ are grouplike, $g$ and $h$ are group completions, and $f$ is a weak equivalence then $j$ is a weak equivalence.
+    \2 If $Y, Z,$ and $W$ are grouplike, and $h$ and $j$ are weak equivalences, then $f$ is a group completion iff $g$ is a group completion.
+    \2 If $Y, Z,$ and $W$ are grouplike, and $f$ and $g$ are group completions, then $j$ is a weak equivalence iff $h$ is a weak equivalence.
+\end{outline}
+\end{thm}
+\todo[color=green!20]{Handled.}
+
+\section{$\OM^{\infty}$-monads}\label{sec:assna2}
+
+In classical topological contexts as remarked in the examples of \cite{kong2024group} and myriads of earlier works on infinite loop spaces, interesting monads $\bC$ (in nature) acting on the image of $\OM^{\infty}$ often come from $E_{\infty}$ operads that act naturally on infinite loop spaces. So we can open with the following question. 
+\begin{quest}\label{qn:oper}
+Does there exist an $E_{\infty}$ operad $\sE_{\infty}$ equipped with natural maps $\sE_{\infty}(j) \times (\OM^{\infty}E)^j \to \OM^{\infty}E$ for all $j>0$ and each $E \in \sS$?
+\end{quest}
+\todo[color=red!20]{NOT HANDLED. For starting points, see \cite{gutierrez2012color}, \cite{Barratt1974oper}, and \cite{Barratt1974oper2}}
+
+But more generally, we are only concerned with the existence of a monad $\bC$ on $\sT$ acting naturally on the image of $\OM^{\infty}$. We ask whether the following also holds true. \todo[color=red!20]{NOT HANDLED. See \cite{May72} for a presentation of details in AT. See \cite{Barratt1974oper}, \cite{gutierrez2012color} for possible starting points in our context.}
+
+\begin{quest}\label{thm:approxthm}
+For the given monad $\bC$ on $\sT$ acting on the image of $\OM^{\infty}$, is there a natural map $\alpha : \bC X \to \OM^{\infty}_{\bC}\SI^{\infty}X$  that is a group completion for every $X \in \sT$ (and is therefore a weak equivalence when $\bC X$ is grouplike in $\bC[\sT]$)?
+\end{quest}
+
+Associated to such a $\bC$, we have a free forgetful adjunction $(\bF_{\bC},\bU_{\bC})$ given by the functors $\bF_{\bC} : \sT \to \bC[\sT]$ (where $\bF_{\bC}X = \bC X$ is the free $\bC$-algebra on $X$) and the forgetful functor $\bU_{\bC} : \bC[\sT] \to \sT$. We say $f$ in $\bC[\sT]$ is a weak equivalence if $\bU_{\bC}f$ is one in $\sT$. We also ask that $\bF_{\bC}$ preserves weak equivalences. As before, we have the adjunction $\SI_{\bC}^{\infty}:\bC[\sT] \to \sS$ and $\OM_{\bC}^{\infty} : \sS \to \bC[\sT]$.\\
+
+Moving on to the grouplike requirements on $\bC$, we first ask that the forgetful functor $\bU_{\bC}$ factors through $\sH$ as $\bU \circ \bV$ where $\bV : \bC [\sT] \to \sH$ is a forgetful functor. We then say $Y \in \bC[\sT]$ is grouplike if $\bV Y$ is grouplike, and $f$ in $\bC[\sT]$ is a group completion if $\bV f$ is a group completion. Note that $\OM^{\infty}_{\bC}Z$ is grouplike for every $Z \in \sS$. The next requirement is that there exists a group completion functor $\bG : \bC [\sT] \to \sH_{gp}$ with a natural group completions $g : \bV Y \to \bG Y$ for each $Y$.\\
+
+Finally, as for simplicial requirements, we ask that for $X_{*} \in s\sT$, there exists a natural isomorphism $\bC|X_{*}| \iso |\bC X_{*}|$ (as mentioned in the introduction, this requirement is usually formal). We also ask that for $K_{*} \in s\sS$ the natural map $\gamma : |\OM^{\infty}K_{*}| \to \OM^{\infty}|K_{*}|$ given by the adjoint to the composite $\SI^{\infty}|\OM^{\infty}K_{*}| \iso |\SI^{\infty}\OM^{\infty}K_{*}| \xrightarrow{|\varepsilon|}|K_{*}|$ is a map of $\bC$-algebras.\\
+
+
+Summarizing, we have the following list of assumptions/requirements for a given monad $\bC$ on $\sT$. 
+
+\begin{asses:monad}[Homotopical Requisites for $\bC$]
+We ask that the following be true of $\bC$, a monad on $\sT$ acting naturally on the image of $\OM^{\infty}$.
+\begin{outline}[enumerate]
+\1 $\bF_{\bC}$ preserves weak equivalences.
+\1 $\bU_{\bC}$ factors through $\sH$ as $\bU \circ \bV$ for some $\bV : \bC[\sT] \to \sH$.
+\1 There exists a group completion functor $\bG : \bC [\sT] \to \sH_{gp}$ with a natural group completion $g : \bV Y \to \bG Y$ in $\sH$ for each $Y \in \bC[\sT]$.
+\1 For $X_{*} \in s\sT$, there exists a natural isomorphism $\bC |X_{*}| \iso |\bC X_{*}|$.
+\1 For $K_{*} \in s\sS$, the natural map $\gamma : |\OM^{\infty}K_{*}| \to \OM^{\infty}|K_{*}|$ is a map of $\bC$-algebras.
+\1 The natural map $\alpha : \bC X \to \OM^{\infty}_{\bC}\SI^{\infty}X$ is a group completion for every $X \in \sT$. 
+\end{outline}
+\end{asses:monad}
+
+We emphasize that (6) here is the most significant assumption. We say a monad $\bC$ satisfying the above assumptions is an \emph{$\OM^{\infty}$-monad}.
+
+\section{A Motivic Recognition Principle}\label{sec:Recprincreal}
+
+We prove the following, as in the introduction. 
+
+\begin{thm}
+Given an $\OM^{\infty}$-monad $\bC$ on $\sT$, there exists a functor $\mathrm{Bar}_{\bC} : \bC[\sT] \to \bC[\sT]$ written $Y \mapsto \overline{Y}^{\bC}$, and a natural homotopy equivalence $\zeta_{\bC} : \overline{Y}^{\bC} \to Y$ such that the unit $\eta_{\bC}:\overline{Y}^{\bC} \to \OM^{\infty}_{\bC}\SI^{\infty}_{\bC} \overline{Y}^{\bC}$ is a group completion and is therefore a weak equivalence if $Y$ is grouplike in $\bC[\sT]$.
+\end{thm}
+
+It remains to identify concrete examples of $\OM^{\infty}$-monads in nature for our context. \cite{Barratt1974oper}, \cite{Barratt1974oper2}, and \cite{gutierrez2012color} provide possible starting points for this. Namely one could consider the operad $\sM$ over $\mathbf{Set}$ whose algebras are monoids (so that $\sM(j)=\SI_j$, the associative operad). Let $\sE : \mathbf{Set} \to \mathbf{Cat}$ be the indiscrete category functor which takes a set $X$ to the category $\sE X$ whose objects are precisely elements of $X$, with exactly one morphism from any object to the other. Finally, let $N : \mathbf{Cat} \to \mathbf{sSet}$ be the nerve functor that takes a category to its nerve as a simplicial set. Then $\sP^s(j) = N \sE \sM(j)=N \sE \SI_j$ defines an operad over $\mathbf{sSet}$ (since $\sE$ preserves products and $N$ is a right adjoint). Let $\bP^s$ denote the associated monad to this operad. One can ask if $\bP^s$ has a well-defined action on the image of $\hat{\OM}^{\infty}$ (some suitable right adjoint that is a completed version of $\OM^{\infty}$ in the simplicial realm).
+
+We also have the analogous general form of the monadicity theorem here.
+
+\begin{thm}[Monadicity Theorem for $\bC$-algebras]
+For an $\OM^{\infty}$-monad $\bC$ on $\sT$, the pair $(\SI^{\infty}_{\bC},\OM^{\infty}_{\bC})$ induces an adjoint equivalence between the homotopy category of grouplike $\bC$-algebras and the homotopy category of connective spectra in $\sS$.
+\end{thm}
+
+\nocite{*}
+
+\printbibliography
+\end{document}

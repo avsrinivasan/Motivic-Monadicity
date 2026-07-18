@@ -1,0 +1,308 @@
+\documentclass{amsart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{amsthm}
+\usepackage[style=alphabetic,maxnames=99,minalphanames=3,maxalphanames=4]{biblatex}
+\usepackage{mathrsfs}
+\usepackage{outlines}
+\usepackage{tikz-cd}
+\usepackage{xypic}
+\usepackage{todonotes}
+\usepackage{lacromay}
+\usepackage[hidelinks, colorlinks=true,linkcolor=MidnightBlue, citecolor=ForestGreen, urlcolor=Violet]{hyperref}
+\AtBeginBibliography{\footnotesize}
+\renewcommand*{\labelalphaothers}{$^{+}$}
+\setcounter{tocdepth}{3}% to get subsubsections in toc
+
+\let\oldtocsection=\tocsection
+
+\let\oldtocsubsection=\tocsubsection
+
+\let\oldtocsubsubsection=\tocsubsubsection
+
+\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
+\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
+\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
+
+\title{A conceptual reinterpretation of the Barratt-Eccles operad}
+\author{Ajay Srinivasan}
+\address{\scriptsize{Department of Mathematics, University of Southern California, Los Angeles, CA 90007}}
+\email{avsriniv@usc.edu}
+\date{\today}
+
+\addbibresource{biblio.bib}
+
+\let\fullref\autoref
+
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+
+
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{sta}{Statement}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{rems}{Remarks}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{assn}{Assumption}%
+\makeautorefname{asses}{Assumptions}%
+\makeautorefname{countcom}{Assumption}%
+\makeautorefname{countcoms}{Assumptions}%
+\makeautorefname{countmcom}{Assumption}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{sta}{Statement}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}[defn]{Question}
+\newtheorem{rem}{Remark}[section]
+\newtheorem{rems}{Remarks}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+\newtheorem{assn}{Assumption}[section]
+\newtheorem{asses}{Assumptions}[section]
+
+\newtheorem*{asses:monad}{Assumptions \ref{asses:monad}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand{\Cmon}{C}
+\newcommand{\Cpre}{C^{\mathrm{pre}}}
+\newcommand{\sLU}{\mathscr{L}_{U}}
+
+\newcommand{\TG}{\sT_G}
+\newcommand{\UG}{\ul{G\sU_{\ast}}}
+
+\newcommand{\FdashG}{\sF[G\sT]}
+\newcommand{\PIdashG}{\PI[G\sT]}
+
+\newcommand{\FsubG}{\sF_G[\ul{G\sT}]}
+\newcommand{\PIsubG}{\PI_G[\ul{G\sT}]}
+
+\newcommand{\DdashG}{\sD[\ul{G\sT}]}
+\newcommand{\DsubG}{\sD_G[\ul{G\sT}]}
+
+\newcommand{\EdashG}{\sE[\ul{G\sT}]}
+\newcommand{\EsubG}{\sE_G[\ul{G\sT}]}
+
+\newcommand{\Dalg}{\bD\big[\PI[\ul{G\sT}]\big]}
+\newcommand{\DGalg}{\bD_G\big[\PI_G[\ul{G\sT}]\big]}
+
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\newcommand{\mI}{\mathcal{I}}
+\newcommand{\mJ}{\mathcal{J}}
+
+\newcommand{\gen}{$\bF_\bullet$}
+\newcommand{\cof}{$\bF_\bullet$}
+
+\newcommand{\lbull}{^{\bullet}S^{\star}}
+\newcommand{\lbullv}{^{\bullet}S^{V}}
+\newcommand{\lbullov}{^{\bullet}S_0^{V}}
+\newcommand{\lbullo}{^{\bullet}S_0^{\star}}
+\newcommand{\lbullvw}{^{\bullet}S^{V\oplus W}}
+
+\newcommand{\rbull}{S^{\star}{^{\bullet}}}
+\newcommand{\rbullo}{S_0^{\star}{^{\bullet}}}
+\newcommand{\rbulll}{S_1^{\star}{^{\bullet}}}
+\newcommand{\rbullov}{{S_0^V}{^{\bullet}}}
+\newcommand{\rbulllv}{{S_1^V}{^{\bullet}}}
+
+\newcommand{\rbullv}{S^{V}{^{\bullet}}}
+\newcommand{\rbullpv}{S^{V'}{^{\bullet}}}
+\newcommand{\rbullw}{S^{W}{^{\bullet}}}
+\newcommand{\rbullvw}{S^{V\oplus W}{^{\bullet}}}
+%\newcommand{\nSv}{^n\!S^V}
+%\newcommand{\nSvw}{^n\!S^{V\oplus W}}
+%\newcommand{\mSv}{^m\!S^V}
+%\newcommand{\sSv}{^s\!S^V}
+%\newcommand{\phSv}{^{\ph_j}\!S^V}
+
+\newcommand{\nSv}{^n\!(S^V)}
+\newcommand{\nSvw}{^n\!(S^{V\oplus W})}
+\newcommand{\mSv}{^m\!(S^V)}
+\newcommand{\sSv}{^s\!(S^V)}
+\newcommand{\phSv}{^{\ph_j}\!(S^V)}
+
+%\newcommand{\Svn}{S^{V}\!{^{n}}}
+%\newcommand{\Svm}{S^{V}\!{^{m}}}
+%\newcommand{\Svs}{S^{V}\!{^{s}}}
+
+\newcommand{\Svn}{(S^{V})^n}
+\newcommand{\Svm}{(S^{V})^m}
+\newcommand{\Svs}{(S^{V})^s}
+
+
+%\newcommand{\inj}{\mathcal{I}}
+\newcommand{\inj}{\vartheta}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+%\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bn}{\mathbf{n}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bs}{\mathbf{s}}
+
+\newcommand{\OGop}{G\mathscr{O}^{op}[\sT]}
+\newcommand{\Cp}{\mathbb{C}^{\mathrm{pre}}}
+
+
+\begin{document}
+\maketitle
+
+This is a rough note on formalizing the $(\SI^{\infty},\OM^{\infty}) \rtarr (\hat{\SI}^{\infty},\hat{\OM}^{\infty})$ ``completion'' process -- we seek a conceptual reinterpretation of the work in \cite{Barratt1974oper} and \cite{Barratt1974oper2}. The Barratt-Eccles operad is defined by $\sP(j) = N \aE \SI_j$ ($j \geq 0$) (where $\aE$ denotes the indiscrete category functor $\aE \colon \mathbf{Set} \rtarr \mathbf{Cat}$). Let $\bP$ denote the associated monad on $\sT$, defined by $\bP X = \sP(*) \ten_{\LA} X^*$. We saw that $\OM^{\infty}E$ is only a $\bP$-algebra up to homotopy (a priori). This is the precise reason why Assumption A in \cite{kong2024group} fails (for the $(\SI^{\infty},\OM^{\infty})$ adjunction) for the Barratt-Eccles operad. \cite{Barratt1974oper2} proposed the following construction as a way out.
+\[\hat{\OM}^{\infty} E := \colim_{i} \OM^i \bP E_i\]
+Note that $\OM^{\infty}E = \colim_i \OM^i E_i$. The results of \cite{Barratt1974oper} show that there exists a weak equivalence $\OM^{\infty} \rtarr \hat{\OM}^{\infty}E$, while the results of \cite{Barratt1974oper2} show that $\hat{\OM}^{\infty}E$ is a $\bP$-algebra. It appears that there may be a dual (right adjoint) $\hat{\SI}^{\infty} \colon \sS \rtarr \sT$ given by $\hat{\SI}^{\infty}X := \colim_i \SI^{\infty}_{-i} \bQ \SI^i X$ where $\bQ$ is the cotensor functor. $\hat{\SI}^{\infty}$ shares the property that there is a weak equivalence $\hat{\SI}^{\infty} X \rtarr \SI^{\infty} X$. What is the formal description of this story? Where is the intuition? Can we separate out the ad hoc results from the conceptual developments? 
+\todo[color=red!40]{Skip to page 3 for the assumptions}
+
+\section{A monad on spectra}
+We start with a monad $\bP$ on $\sT$. There are two ways to define an induced monad $\ol{\bP}$ on $\sS$. 
+\begin{defn}\label{defn:1.1olbp}
+Define $\ol{\bP}_p \colon \sS \rtarr p\sS$ by $(\ol{\bP}_p E)_U = \bP E_U$. Spectrification then yields a functor $\ol{\bP} \colon \sS \rtarr \sS$ given by $\ol{\bP}E := L\ol{\bP}_p E$.
+\end{defn}
+Here is an alternative definition that is conceptually much clearer.
+\begin{defn}\label{defn:1.2olbp}
+Recall that $\sP(*)$ is an operad on $\sT$, and that $\sS$ is tensored over $\sT$. Define $\ol{\bP} \colon \sS \rtarr \sS$ to be $\ol{\bP}E = \sP(*) \ten_{\LA} E^*$. 
+\end{defn}
+The monad structure in both cases arises from that of $\bP$. 
+
+\begin{lem}
+$\ol{\bP}$ defined as in \ref{defn:1.1olbp} is naturally isomorphic to $\ol{\bP}$ defined as in \ref{defn:1.2olbp}.
+\end{lem}
+\begin{proof}
+Let $E \in \sS$. We need an isomorphism between $L\ol{\bP}_p E$ and $\sP(*) \ten_{\LA} E^*$. Let $U \in \oC(\oU)$ arbitrary. By definition $(L \ol{\bP}_{p}E)_U \iso \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \OM^Z \bP E_V$. Also $\sP(*) \ten_{\LA} E^* = \coprod_j \sP(j) \sma_{\SI_j} E^j$. Thus \[\left(\coprod_j \sP(j) \sma_{\SI_j} E^j \right)_U \iso \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \coprod_j \sP(j) \sma_{\SI_j} (E^j)_V.\]
+\noindent Since $(E^j)_V \iso (E_V)^j$, we have:
+\begin{equation*}
+\begin{split}
+\left(\coprod_j \sP(j) \sma_{\SI_j} E^j \right)_U &\iso \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \coprod_j \sP(j) \sma_{\SI_j} (E_V)^j\\
+&\iso \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \bP E_V \iso (L \ol{\bP}_p E)_U.
+\end{split}
+\end{equation*}
+This provides the needed isomorphism.
+\end{proof}
+
+The following lemma shows that our conceptual definitions are compatible with the definition of \cite{Barratt1974oper2}.
+\begin{lem}
+There is an isomorphism $\OM^{\infty} \ol{\bP} E \iso \colim_{(V,Z) \in \oU \downarrow \oC (\oU)} \OM^Z \bP E_V$ for each $E \in \sS$.
+\end{lem}
+\begin{proof}
+We know that $\OM^{\infty} G \iso \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \OM^Z G_V$ for all $G \in \sS$. So $\OM^{\infty}\ol{\bP}E \iso \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \OM^Z (\ol{\bP}E)_V$. Since $(\ol{\bP}E)_V = \colim_{(W,J) \in V \in \oC(\oU)} \OM^J \bP E_W$, we have:
+\begin{equation*}
+\begin{split}
+\OM^{\infty} \ol{\bP}E &\iso \colim_{(V,Z)\in \oU \downarrow \oC(\oU)} \OM^Z \colim_{(W,J) \in V \downarrow \oC(\oU)} \OM^J \bP E_W\\
+&\iso \colim_{(W,J \dotplus Z) \in \oU \downarrow \oC(\oU)} \OM^{J \dotplus Z} \bP E_W\\
+&\iso \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \OM^Z \bP E_V.
+\end{split}
+\end{equation*}
+We have used the fact that $S^Z$, as a smooth scheme, is small in $\sT$.  
+\end{proof}
+
+Let $\ol{\et}$ and $\ol{\mu}$ denote the unit and product of $\ol{\bP}$ respectively. We now come to the $\bP$-algebra structure on $\OM^{\infty} \ol{\bP} E$ for each $E \in \sS$.
+
+\begin{lem}\label{lem:1.2oplax}
+There is an op-lax map of monads $(\SI^{\infty},\tilde{\ga})$ from $\bP$ to $\ol{\bP}$.
+\end{lem}
+\begin{proof}
+We need to construct the map $\tilde{\ga} \colon \SI^{\infty} \bP \rtarr \ol{\bP}\SI^{\infty}$ and show that the required diagrams commute. Let $X \in \sT$ be arbitrary. To construct $\tilde{\ga}_X \colon \SI^{\infty}\bP X \rtarr \overline{\bP} \SI^{\infty} X$, it suffices to construct maps $\SI^{\infty}(\sP(j) \sma_{\SI_j} X^j) \rtarr \sP(j) \sma_{\SI_j} (\SI^{\infty}X)^j$ for each $j$. Let $U \in \oC(\oU)$ be arbitrary. Note that $(\SI^{\infty}(\sP(j) \sma_{\SI_j} X^j))_U \iso \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \SI^T (\sP(j) \sma_{\SI_j} X^j)$ where $T$ is the finite-dimensional subspace such that $T \dotplus V = \oU$. Consider the following composite.
+\[\xymatrix{
+\SI^T(\sP(j)\sma_{\SI_j} X^j) \ar[r]^-{=}\ar[d] & \sP(j) \sma_{\SI_j} X^j \sma S^T  \ar[rr]^-{\id \sma \langle \id, \dots, \id\rangle} & & \sP(j) \sma_{\SI_j} X^j \sma (S^T)^j \ar[d]^{\mathrm{shuffle}} \\
+\sP(j) \sma_{\SI_j} (\SI^TX)^j & && \ar[lll]_{=} \sP(j) \sma_{\SI_j} (X \sma S^T)^j
+}\] 
+
+\noindent Leading to the map: \[\colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \SI^T (\sP(j) \sma_{\SI_j} X^j) \rtarr \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z (\sP(j) \sma_{\SI_j} (\SI^T X)^j).\]
+\noindent Recall that there is a colimit map $\SI^T X \rtarr (\SI^{\infty} X)_V$ (adjoint to the colimit map $\SI^{\oU}_{V} \SI^T X \rtarr \SI^{\infty} X$ -- where $\SI^{\oU}_{V}$ is the $V$-th space shift desuspension functor, left adjoint to the $V$-th space functor). Also as seen before, $((\SI^{\infty}X)_V)^j \iso ((\SI^{\infty} X)^j)_V$. Piecing all of this together, we get a map 
+\[\colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \SI^T (\sP(j) \sma_{\SI_j} X^j) \rtarr \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z (\sP(j) \sma_{\SI_j} (\SI^\infty X)^j_V).\]
+Recall that $(\sP(j) \sma_{\SI_j} (\SI^{\infty}X)^j)_U := \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z (\sP(j) \sma_{\SI_j} (\SI^\infty X)^j_V)$, so this map is precisely what we wanted. To recap, the op-lax map $\tilde{\ga}_X$ is the one induced by the following composite.
+\[
+\xymatrix{
+\SI^{\infty} (\sP(j)\sma_{\SI_j}X^j)_U \ar^-{\iso}[r] & \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z \SI^T (\sP(j) \sma_{\SI_j} X^j) \ar[d]\\
+ & \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z (\sP(j) \sma_{\SI_j} (\SI^T X)^j) \ar[d]\\
+(\sP(j) \sma_{\SI_j} (\SI^{\infty}X)^j)_U & \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z (\sP(j) \sma_{\SI_j} (\SI^{\infty} X)^j_V) \ar[l]_-{\iso}
+}
+\]
+\textcolor{red}{Check relevant diagrams.}
+\end{proof}
+
+\begin{thm}
+There is a lax map of monads $(\OM^{\infty},\ga)$ from $\ol{\bP}$ to $\bP$. 
+\end{thm}
+\begin{proof}
+The lax map $\ga \colon \bP \OM^{\infty} \rtarr \OM^{\infty} \overline{\bP}$ is obtained by appealing to the $(\SI^{\infty},\OM^{\infty})$ adjunction. Let $E \in \sS$ be arbitrary. By Lem. \ref{lem:1.2oplax} there is a lax map of monads $\tilde{\ga} \colon \SI^{\infty}\bP \rtarr \ol{\bP} \SI^{\infty}$. Applying $\tilde{\ga}$ to $\OM^{\infty}E$ we get a map $\tilde{\ga}_{\OM^{\infty}E} \colon \SI^{\infty} \bP \OM^{\infty}E\rtarr \ol{\bP} \SI^{\infty} \OM^{\infty} E$ -- then applying $\ol{\bP}$ to the counit map $\epz_E \colon \SI^{\infty} \OM^{\infty}E \rtarr E$ takes us to $\ol{\bP} E$. The map $\ga_E$ is defined as the adjoint to $\overline{\bP} \epz_E \circ \tilde{\ga}_{\OM^{\infty}E}$. \textcolor{red}{Check that the relevant diagrams commute again}
+\end{proof}
+
+Using Lem. 14.3 in \cite{May09Einfty} provides the following corollary.
+
+\begin{cor}\label{cor:1.1.1}
+For each $\ol{\bP}$-algebra $E$ (with $\ol{\bP}$-action $\theta$), $\OM^{\infty}E$ is a $\bP$-algebra (with $\bP$-action $\OM^{\infty} \theta \circ \ga$). 
+\end{cor}
+
+\noindent In particular, $\OM^{\infty}\ol{\bP} E$ is a $\bP$-algebra for every $E \in \sS$. Unfortunately, not every object of $\sS$ is a $\ol{\bP}$-algebra, but the results of \cite{Barratt1974oper} show the following way out.
+
+\begin{thm}
+The natural map $\OM^{\infty} \ol{\et} \colon \OM^{\infty} \rtarr \OM^{\infty} \ol{\bP}$ is an objectwise weak equivalence. 
+\end{thm}
+
+\noindent This means that while $\OM^{\infty}E$ may not be a $\bP$-algebra a priori, it is naturally weak equivalent to the $\bP$-algebra $\OM^{\infty} \ol{\bP}E$. This is the way out.\\
+
+Let us recap here. Except for the following two assumptions, I think the rest is formal/conceptual.
+
+\begin{assn}\label{ass:1.1}
+$\sS$ is tensored over $\sT$ and there is an operadic monad $\bP$ on $\sT$ such that there exists an op-lax map $(\SI^{\infty}, \tilde{\ga})$ from $\bP$ to the induced monad $\ol{\bP}$ on $\sS$.
+\end{assn}
+\begin{assn}\label{ass:1.2}
+The natural map $\OM^{\infty}\ol{\et} \colon \OM^{\infty} \rtarr \OM^{\infty} \ol{\bP}$ is an objectwise weak equivalence.
+\end{assn}
+
+We have shown that Assumption \ref{ass:1.1} holds in the motivic context (the topological context is also equally easy to see I think), almost formally. It is also clear that given Assumption \ref{ass:1.1}, Cor. \ref{cor:1.1.1} follows quite immediately. Assumption \ref{ass:1.2} is nontrivial and is one of the key results of \cite{Barratt1974oper, Barratt1974oper2}. It allows us to see that every object in the image of $\OM^{\infty}$ is weak equivalent to a $\bP$-algebra. 
+
+\section{Some disorganized notes for myself}
+I suspect that $\hat{\SI}^{\infty}X := \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \SI^{\oU}_{V} \bQ \SI^Z X$ defines the same functor as $\ol{\bQ}\SI^{\infty} X$, where $\bQ X = \prod_j \ul{\Hom} (\sP(j),X^j)$ and $\ol{\bQ} E = \prod_j \ul{\Hom}(\sP(j),E^j)$ (here $\ul{\Hom}$ is used to denote the cotensoring). But it is still unclear how to see $\ol{\bQ}\SI^{\infty}$ as a left adjoint of $\OM^{\infty} \ol{\bP}$ (or even $\hat{\SI}^{\infty}$ as one of $\hat{\OM}^{\infty}$). Maybe this whole $\hat{\SI}^{\infty}$ approach is trying to read into things that aren't meant to be read into. Until later.
+\printbibliography
+
+\end{document}

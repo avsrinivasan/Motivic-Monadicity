@@ -210,12 +210,11 @@
 \maketitle
 
 \begin{abstract}
-    This paper demonstrates a homotopical monadicity result for the adjunction between the suspension spectrum and zeroth space functors in motivic stable homotopy theory. 
-    By collecting enough preliminary results, we are able to plug motivic stable homotopy theory 
-    into the general monadicity theorem of \cite{KMZ25} to deduce the main results. This pursuit requires the verification of 
-    six properties of simplicial motivic homotopy theory, the hardest of which is a weak commutativity result between the zeroth space functor and realization of simplicial motivic spectra.
-    Also essential to the main results is the elaboration presented here of how monadic algebras can be linked under an op-lax map of monads.
-    We believe that an understanding of these simplicial properties, and the monadic framework explored here, may be helpful towards proving an operadic recognition principle for motivic infinite loop spaces.  
+    We prove a homotopical monadicity theorem for the adjunction between the suspension spectrum and zeroth space functors in motivic stable homotopy theory. 
+    Our proof verifies that motivic stable homotopy theory satisfies the hypotheses of the general monadicity theorem of \cite{KMZ25}.
+    In the process, we demonstrate six preliminary results in simplicial motivic homotopy theory, the main technical ingredient being a weak commutativity theorem between the zeroth space functor and realization of simplicial motivic spectra.
+    We also elaborate on a general framework relating monadic algebras under op-lax maps of monads. This monadic framework is used in the proof of the main results and may be of independent interest as well. 
+    These simplicial results and the accompanying monadic framework may provide tools toward a conjectured operadic recognition principle for motivic infinite loop spaces.  
 \end{abstract}
 
 \tableofcontents
@@ -335,11 +334,11 @@ With the preliminaries in place, Section \ref{sec:thm} develops the required bar
 Much of this article was developed while I was a visitor at the University of Chicago in the summers of 2024 and 2025. 
 I am indebted to Peter May for his support through the summer program at Chicago, and for his efforts in this project, which was very much joint work with him.
 My heartfelt gratitude also goes out to Alicia Lima, who co-advised me through the summer of 2024. I thank Paul Goerss for clarifications on simplicial path-space fibrations and Aravind Asok for pointing me to references on the commutativity of realization and homotopy pullback, and for continued discussion over the years on the social history of mathematics. 
-Any errors in this article are mine alone.
+The author was partially supported by NSF grant DGE-2241144 in the preparation of this draft.
 
 \section{Preliminaries}\label{sec:prelim}
 \subsection{The Morel-Voevodsky framework}\label{subsec:mvf}
-This section recalls relevant details of the model category of algebraic spaces constructed by Morel and Voevodsky in \cite{voev96pre, MV99, morel12A1AT}. Let $k$ be a perfect field and $S$ a smooth affine integral scheme of finite type over $k$ (in particular, we ask that $S = \Spec(R)$ for a Noetherian integral domain $R$). We define $\mathrm{Sm}_S$ to be the category of smooth schemes of finite type over $S$. Whenever we refer to a scheme, we mean an object of $\mathrm{Sm}_S$. The category $\mathrm{Sm}_S$ is infeasible for homotopy theory since it is not cocomplete, so one cannot use the objects of $\mathrm{Sm}_S$ to mean ``spaces.'' The fix for this is to consider simplicial sheaves over $\mathrm{Sm}_S$ as spaces. To speak of sheaves, one endows $\mathrm{Sm}_S$ with an appropriate topology. \cite{MV99} identified the Nisnevich topology, finer than the Zariski but coarser than the \'Etale topology on $\mathrm{Sm}_S$, to be a convenient choice. It is defined so that the covering sieves are those families of \'etale morphisms $\phz_i \colon \{U_i\} \rtarr X$ such that for any $x \in X$, there exists $i$ and $u \in U_i$ with the corresponding map on residue fields being an isomorphism (that maps to $x$ with the same residue field). 
+This section recalls relevant details of the model category of algebraic spaces constructed by Morel and Voevodsky in \cite{MV99}. Let $k$ be a perfect field and $S$ a smooth affine integral scheme of finite type over $k$ (in particular, we ask that $S = \Spec(R)$ for a Noetherian integral domain $R$). We define $\mathrm{Sm}_S$ to be the category of smooth schemes of finite type over $S$. Whenever we refer to a scheme, we mean an object of $\mathrm{Sm}_S$. The category $\mathrm{Sm}_S$ is infeasible for homotopy theory since it is not cocomplete, so one cannot use the objects of $\mathrm{Sm}_S$ to mean ``spaces.'' The fix for this is to consider simplicial sheaves over $\mathrm{Sm}_S$ as spaces. To speak of sheaves, one endows $\mathrm{Sm}_S$ with an appropriate topology. \cite{MV99} identified the Nisnevich topology, finer than the Zariski but coarser than the \'Etale topology on $\mathrm{Sm}_S$, to be a convenient choice. It is defined so that the covering sieves are those families of \'etale morphisms $\phz_i \colon \{U_i\} \rtarr X$ such that for any $x \in X$, there exists $i$ and $u \in U_i$ with the corresponding map on residue fields being an isomorphism (that maps to $x$ with the same residue field). 
 We write $(\mathrm{Sm}_S)_{Nis}$ to denote the site of $\mathrm{Sm}_S$ equipped with the Nisnevich topology. The definition of the Morel-Voevodsky category of spaces over $S$ is then\footnote{Notation: for a Grothendieck site $(\aC,\tau)$ we write $\mathrm{sSh}(\aC_{\tau})$ to mean the category of simplicial $\mathbf{Set}$-valued sheaves on $\aC$. When there is no confusion, we will call the objects of $\mathrm{sSh}(\aC_{\tau})$ simplicial sheaves on $\aC$.}: \[\mathrm{Spc}(S) := \sSh((\mathrm{Sm}_S)_{Nis}).\]
 
 We can also define the category of based spaces over $S$ to be $\mathrm{Spc}(S)_{\bu} = S \downarrow \mathrm{Spc}(S)$. We write $\sT$ to mean this category and we call its objects spaces. The presheaf represented by an object $X \in \mathrm{Sm}_S$ is in fact a sheaf in the Nisnevich topology (this is due to \cite[VII.2a]{SGA4V2}). We also use $\sT_{k}$ to mean the category $\mathrm{Spc}(k)_{\bu}$ of spaces over $k$.\\

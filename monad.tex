@@ -1,0 +1,234 @@
+\documentclass{amsart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{amsthm}
+\usepackage[style=alphabetic,maxnames=99,minalphanames=3,maxalphanames=4]{biblatex}
+\usepackage{mathrsfs}
+\usepackage{outlines}
+\usepackage{tikz-cd}
+\usepackage{todonotes}
+\usepackage{lacromay}
+\usepackage[hidelinks, colorlinks=true,linkcolor=MidnightBlue, citecolor=ForestGreen, urlcolor=Violet]{hyperref}
+\AtBeginBibliography{\footnotesize}
+\renewcommand*{\labelalphaothers}{$^{+}$}
+\setcounter{tocdepth}{3}% to get subsubsections in toc
+
+\let\oldtocsection=\tocsection
+
+\let\oldtocsubsection=\tocsubsection
+
+\let\oldtocsubsubsection=\tocsubsubsection
+
+\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
+\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
+\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
+
+\title{Musings on The Barratt-Eccles Monad}
+\author{Ajay Srinivasan}
+\address{\scriptsize{Department of Mathematics, University of Southern California, Los Angeles, CA 90007}}
+\email{avsriniv@usc.edu}
+\date{\today}
+
+\addbibresource{biblio.bib}
+
+\let\fullref\autoref
+
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+
+
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{sta}{Statement}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{rems}{Remarks}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{assn}{Assumption}%
+\makeautorefname{asses}{Assumptions}%
+\makeautorefname{countcom}{Assumption}%
+\makeautorefname{countcoms}{Assumptions}%
+\makeautorefname{countmcom}{Assumption}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{sta}{Statement}[section]
+\newtheorem{cor}{Corollary}[section]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[section]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}[defn]{Question}
+\newtheorem{rem}{Remark}[section]
+\newtheorem{rems}{Remarks}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+\newtheorem{assn}{Assumption}[section]
+\newtheorem{asses}{Assumptions}[section]
+
+\newtheorem*{asses:monad}{Assumptions \ref{asses:monad}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand{\Cmon}{C}
+\newcommand{\Cpre}{C^{\mathrm{pre}}}
+\newcommand{\sLU}{\mathscr{L}_{U}}
+
+\newcommand{\TG}{\sT_G}
+\newcommand{\UG}{\ul{G\sU_{\ast}}}
+
+\newcommand{\FdashG}{\sF[G\sT]}
+\newcommand{\PIdashG}{\PI[G\sT]}
+
+\newcommand{\FsubG}{\sF_G[\ul{G\sT}]}
+\newcommand{\PIsubG}{\PI_G[\ul{G\sT}]}
+
+\newcommand{\DdashG}{\sD[\ul{G\sT}]}
+\newcommand{\DsubG}{\sD_G[\ul{G\sT}]}
+
+\newcommand{\EdashG}{\sE[\ul{G\sT}]}
+\newcommand{\EsubG}{\sE_G[\ul{G\sT}]}
+
+\newcommand{\Dalg}{\bD\big[\PI[\ul{G\sT}]\big]}
+\newcommand{\DGalg}{\bD_G\big[\PI_G[\ul{G\sT}]\big]}
+
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\newcommand{\mI}{\mathcal{I}}
+\newcommand{\mJ}{\mathcal{J}}
+
+\newcommand{\gen}{$\bF_\bullet$}
+\newcommand{\cof}{$\bF_\bullet$}
+
+\newcommand{\lbull}{^{\bullet}S^{\star}}
+\newcommand{\lbullv}{^{\bullet}S^{V}}
+\newcommand{\lbullov}{^{\bullet}S_0^{V}}
+\newcommand{\lbullo}{^{\bullet}S_0^{\star}}
+\newcommand{\lbullvw}{^{\bullet}S^{V\oplus W}}
+
+\newcommand{\rbull}{S^{\star}{^{\bullet}}}
+\newcommand{\rbullo}{S_0^{\star}{^{\bullet}}}
+\newcommand{\rbulll}{S_1^{\star}{^{\bullet}}}
+\newcommand{\rbullov}{{S_0^V}{^{\bullet}}}
+\newcommand{\rbulllv}{{S_1^V}{^{\bullet}}}
+
+\newcommand{\rbullv}{S^{V}{^{\bullet}}}
+\newcommand{\rbullpv}{S^{V'}{^{\bullet}}}
+\newcommand{\rbullw}{S^{W}{^{\bullet}}}
+\newcommand{\rbullvw}{S^{V\oplus W}{^{\bullet}}}
+%\newcommand{\nSv}{^n\!S^V}
+%\newcommand{\nSvw}{^n\!S^{V\oplus W}}
+%\newcommand{\mSv}{^m\!S^V}
+%\newcommand{\sSv}{^s\!S^V}
+%\newcommand{\phSv}{^{\ph_j}\!S^V}
+
+\newcommand{\nSv}{^n\!(S^V)}
+\newcommand{\nSvw}{^n\!(S^{V\oplus W})}
+\newcommand{\mSv}{^m\!(S^V)}
+\newcommand{\sSv}{^s\!(S^V)}
+\newcommand{\phSv}{^{\ph_j}\!(S^V)}
+
+%\newcommand{\Svn}{S^{V}\!{^{n}}}
+%\newcommand{\Svm}{S^{V}\!{^{m}}}
+%\newcommand{\Svs}{S^{V}\!{^{s}}}
+
+\newcommand{\Svn}{(S^{V})^n}
+\newcommand{\Svm}{(S^{V})^m}
+\newcommand{\Svs}{(S^{V})^s}
+
+
+%\newcommand{\inj}{\mathcal{I}}
+\newcommand{\inj}{\vartheta}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bn}{\mathbf{n}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bs}{\mathbf{s}}
+
+\newcommand{\OGop}{G\mathscr{O}^{op}[\sT]}
+\newcommand{\Cp}{\mathbb{C}^{\mathrm{pre}}}
+
+
+\begin{document}
+
+
+\maketitle
+
+Rough notes on the Barratt-Eccles Monad. Let $\sP(j) = N \sE \SI_j \in \mathbf{sSet} \monoto \sT$ be the simplicial Barratt-Eccles operad. Define $\bP$ to be the associated monad given by $\bP X = \sP(*) \otimes_{\LA} X^{*}$. Define $\hat{\OM}^{\infty} = \colim_{(V,Z) \in \oU \downarrow \oC (\oU)} \OM^{Z} \bP \OM^{\oU}_{V}$ and $\hat{\SI}^{\infty} = \colim_{(V,Z) \in \oU \downarrow \oC (\oU)}\SI^{\oU}_{V} \bS \SI^{Z}$ (here $\OM^Z = \mathrm{Hom}(S^Z,-)$, $\SI^{Z} = - \sma S^Z$, and $\bS$ is the appropriate cotensor functor). The new pair $(\hat{\SI}^{\infty},\hat{\OM}^{\infty})$ defines an adjunction between $\sT$ and $\sS$ (we can call this the completion of the pair $(\SI^{\infty},\OM^{\infty})$ with respect to the action of $\bP$). 
+
+\begin{thm}
+Each $\hat{\OM}^{\infty} E$ has the structure of a $\bP$-algebra.
+\end{thm}
+
+The starting point for this structure is the obvious map $\bP X \sma Y \to \bP (X \sma Y)$. From here, we obtain a map $\SI^{Z} \bP X \to \bP \SI^Z X$. Applying the map to $\OM^{Z} X$ and passing through the counit ($\SI^Z \bP \OM^Z X \to \bP \SI^Z \OM^Z X \to \bP X$), we get a natural map $\ga^Z : \bP \OM^Z X \to \OM^Z \bP X$. The $\bP$-algebra structure on $\hat{\OM}^{\infty}E$ is now given by (after passing to the colimit), the maps $\bP \OM^{Z} \bP E_V \xrightarrow{\ga^Z} \OM^{Z} \bP \bP E_V \xrightarrow{\OM^{Z}\mu} \OM^{Z} \bP E_V$ (and a bit of diagram chasing shows this prescription provides a valid $\bP$-action).\\
+
+The following is proved in Lem. 3.1 in  \cite{Barratt1974oper2}.
+
+\begin{thm}
+There is a weak equivalence $\OM^{\infty}E \to \hat{\OM}^{\infty} E$. 
+\end{thm}
+
+I suspect by a similar argument that $\SI^{\infty} X$ and $\hat{\SI}^{\infty} X$ must be weak equivalent too. This reduces a lot of the homotopical work one might have to do for this new completed adjunction.
+
+The following are the punchlines in \cite{Barratt1974oper}
+
+\begin{thm}
+If $X \in \sT$ is simplicially connected, there is a weak equivalence $\bP X \to \OM^{\infty} \SI^{\infty} X$ (and therefore $\bP X \to \hat{\OM}^{\infty} \hat{\SI}^{\infty} X$ is a weak equivalence).
+\end{thm}
+
+\begin{thm}\label{thm:grpcomp}
+For $X \in \sT$, there is a weak equivalence $\overline{\bP} X \to \OM^{\infty} \SI^{\infty} X$ (and therefore $\overline{\bP} X \to \hat{\OM}^{\infty} \hat{\SI}^{\infty} X$ is a weak equivalence).
+\end{thm}
+
+\noindent Here $\overline{\bP}X$ is the universal group of $\bP X$ as a homotopy abelian associative H-space (let's denote the category of htpy abelian associative H-spaces as $\sH$). That is, $\overline{\bP}X \in \sH$ is a space equipped with a map $\iota : \bP X \to \overline{\bP} X$ such that for every $Y \in \sH$ with inverses (so an ``H-group'', I suppose) and a map $\phi : \bP X \to Y$ in $\sH$, there exists a unique $h:\overline{\bP}X \to Y$ such that $h \circ \iota = \phi$. I can think of this as some form of a Grothendieck completion in $\sH$, so excuse me if I just write this down as $\overline{\bP}X = \mathrm{Gr}\bP X$. If I can think of $\iota$ as a GROUP COMPLETION in our sense, then \ref{thm:grpcomp} is exactly what we need.
+
+\begin{quest}
+Is $\iota: \bP X \to \overline{\bP} X$ a group completion in $\sH$?
+\end{quest}
+
+I am almost sure that the response to the above question is in the positive. It is true that $\overline{\bP} X$ is grouplike in our sense (in fact, I think I can say that $\pi_0 (\overline{\bP} X) = \bZ \pi_0 (X)$, where the left hand side is the sheaf of path components of $\overline{\bP}X$, and the right hand side is the free abelian group object on $\pi_0(X)$ in the category of sheaves). We can also see that $\iota$ induces an isomorphism $\mathrm{Gr} \pi_0 (\bP X) \xrightarrow{\sim} \pi_0 (\overline{\bP}X)$. It remains to see that $\iota$ induces isomorphisms $H_{*}(\bP X) [\pi_0(\bP X)^{-1}] \xrightarrow{\sim} H_{*} (\overline{\bP} X)$. One might be able to show this through the universal property of localization at $\pi_0(\bP X)$, by relating it to the property that defines $\overline{\bP} X$. Not sure how this argument works yet, but just an idea I had on the flight.
+\printbibliography
+\end{document}

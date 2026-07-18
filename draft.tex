@@ -1,0 +1,643 @@
+\documentclass{amsart}
+\usepackage{graphicx} % Required for inserting images
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{stackrel}
+\usepackage{amsthm}
+\usepackage[style=alphabetic,maxnames=99,minalphanames=3,maxalphanames=4]{biblatex}
+\usepackage{mathrsfs}
+\usepackage{outlines}
+\usepackage{tikz-cd}
+\usepackage{todonotes}
+\usepackage{lacromay}
+\usepackage[hidelinks, colorlinks=true,linkcolor=MidnightBlue, citecolor=ForestGreen, urlcolor=Violet]{hyperref}
+\usepackage{xypic}
+\usepackage{enumitem}
+\AtBeginBibliography{\footnotesize}
+\renewcommand*{\labelalphaothers}{$^{+}$}
+\setcounter{tocdepth}{3}% to get subsubsections in toc
+
+\let\oldtocsection=\tocsection
+
+\let\oldtocsubsection=\tocsubsection
+
+\let\oldtocsubsubsection=\tocsubsubsection
+
+\renewcommand{\tocsection}[2]{\hspace{0em}\oldtocsection{#1}{#2}}
+\renewcommand{\tocsubsection}[2]{\hspace{1em}\oldtocsubsection{#1}{#2}}
+\renewcommand{\tocsubsubsection}[2]{\hspace{2em}\oldtocsubsubsection{#1}{#2}}
+
+\title{A Motivic Homotopical Monadicity Theorem}
+\author{Ajay Srinivasan}
+\address{\scriptsize{Department of Mathematics, University of Southern California, Los Angeles, CA 90007}}
+\email{avsriniv@usc.edu}
+\date{\today}
+
+\addbibresource{biblio.bib}
+
+\let\fullref\autoref
+
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+\def\makeautorefname#1#2{\expandafter\def\csname#1autorefname\endcsname{#2}}
+
+
+\def\equationautorefname~#1\null{(#1)\null}
+\makeautorefname{footnote}{footnote}%
+\makeautorefname{item}{item}%
+\makeautorefname{figure}{Figure}%
+\makeautorefname{table}{Table}%
+\makeautorefname{part}{Part}%
+\makeautorefname{appendix}{Appendix}%
+\makeautorefname{chapter}{Chapter}%
+\makeautorefname{section}{Section}%
+\makeautorefname{subsection}{Section}%
+\makeautorefname{subsubsection}{Section}%
+\makeautorefname{thm}{Theorem}%
+\makeautorefname{sta}{Statement}%
+\makeautorefname{cor}{Corollary}%
+\makeautorefname{lem}{Lemma}%
+\makeautorefname{prop}{Proposition}%
+\makeautorefname{pro}{Property}
+\makeautorefname{conj}{Conjecture}%
+\makeautorefname{defn}{Definition}%
+\makeautorefname{notn}{Notation}
+\makeautorefname{notns}{Notations}
+\makeautorefname{rem}{Remark}%
+\makeautorefname{rems}{Remarks}%
+\makeautorefname{quest}{Question}%
+\makeautorefname{exmp}{Example}%
+\makeautorefname{ax}{Axiom}%
+\makeautorefname{claim}{Claim}%
+\makeautorefname{assn}{Assumption}%
+\makeautorefname{asses}{Assumptions}%
+\makeautorefname{countcom}{Assumption}%
+\makeautorefname{countcoms}{Assumptions}%
+\makeautorefname{countmcom}{Assumption}%
+\makeautorefname{con}{Construction}%
+\makeautorefname{prob}{Problem}%
+\makeautorefname{warn}{Warning}%
+\makeautorefname{obs}{Observation}%
+\makeautorefname{conv}{Convention}%
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{sta}{Statement}[section]
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{lem}{Lemma}[thm]
+\newtheorem{prob}{Problem}[section]
+\newtheorem{conj}{Conjecture}[section]
+
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}[section]
+\newtheorem{ax}{Axiom}[section]
+\newtheorem{con}{Construction}[section]
+\newtheorem{exmp}{Example}[section]
+\newtheorem{notn}{Notation}[section]
+\newtheorem{notns}{Notations}[section]
+\newtheorem{pro}{Property}[section]
+\newtheorem{quest}[defn]{Question}
+\newtheorem{rem}{Remark}[section]
+\newtheorem{rems}{Remarks}[section]
+\newtheorem{warn}{Warning}[section]
+\newtheorem{sch}{Scholium}[section]
+\newtheorem{obs}{Observation}[section]
+\newtheorem{conv}{Convention}[section]
+\newtheorem{assn}{Assumption}[section]
+\newtheorem{asses}{Assumptions}[section]
+
+\newtheorem*{asses:monad}{Assumptions \ref{asses:monad}}
+
+\renewcommand{\qedsymbol}{$\blacksquare$}
+\newcommand{\Cmon}{C}
+\newcommand{\Cpre}{C^{\mathrm{pre}}}
+\newcommand{\sLU}{\mathscr{L}_{U}}
+
+\newcommand{\TG}{\sT_G}
+\newcommand{\UG}{\ul{G\sU_{\ast}}}
+
+\newcommand{\FdashG}{\sF[G\sT]}
+\newcommand{\PIdashG}{\PI[G\sT]}
+
+\newcommand{\FsubG}{\sF_G[\ul{G\sT}]}
+\newcommand{\PIsubG}{\PI_G[\ul{G\sT}]}
+
+\newcommand{\DdashG}{\sD[\ul{G\sT}]}
+\newcommand{\DsubG}{\sD_G[\ul{G\sT}]}
+
+\newcommand{\EdashG}{\sE[\ul{G\sT}]}
+\newcommand{\EsubG}{\sE_G[\ul{G\sT}]}
+
+\newcommand{\Dalg}{\bD\big[\PI[\ul{G\sT}]\big]}
+\newcommand{\DGalg}{\bD_G\big[\PI_G[\ul{G\sT}]\big]}
+
+\newcommand{\mb}[1]{\mathbf{#1}}
+
+\newcommand{\mI}{\mathcal{I}}
+\newcommand{\mJ}{\mathcal{J}}
+
+\newcommand{\gen}{$\bF_\bullet$}
+\newcommand{\cof}{$\bF_\bullet$}
+
+\newcommand{\lbull}{^{\bullet}S^{\star}}
+\newcommand{\lbullv}{^{\bullet}S^{V}}
+\newcommand{\lbullov}{^{\bullet}S_0^{V}}
+\newcommand{\lbullo}{^{\bullet}S_0^{\star}}
+\newcommand{\lbullvw}{^{\bullet}S^{V\oplus W}}
+
+\newcommand{\rbull}{S^{\star}{^{\bullet}}}
+\newcommand{\rbullo}{S_0^{\star}{^{\bullet}}}
+\newcommand{\rbulll}{S_1^{\star}{^{\bullet}}}
+\newcommand{\rbullov}{{S_0^V}{^{\bullet}}}
+\newcommand{\rbulllv}{{S_1^V}{^{\bullet}}}
+
+\newcommand{\rbullv}{S^{V}{^{\bullet}}}
+\newcommand{\rbullpv}{S^{V'}{^{\bullet}}}
+\newcommand{\rbullw}{S^{W}{^{\bullet}}}
+\newcommand{\rbullvw}{S^{V\oplus W}{^{\bullet}}}
+%\newcommand{\nSv}{^n\!S^V}
+%\newcommand{\nSvw}{^n\!S^{V\oplus W}}
+%\newcommand{\mSv}{^m\!S^V}
+%\newcommand{\sSv}{^s\!S^V}
+%\newcommand{\phSv}{^{\ph_j}\!S^V}
+
+\newcommand{\nSv}{^n\!(S^V)}
+\newcommand{\nSvw}{^n\!(S^{V\oplus W})}
+\newcommand{\mSv}{^m\!(S^V)}
+\newcommand{\sSv}{^s\!(S^V)}
+\newcommand{\phSv}{^{\ph_j}\!(S^V)}
+
+%\newcommand{\Svn}{S^{V}\!{^{n}}}
+%\newcommand{\Svm}{S^{V}\!{^{m}}}
+%\newcommand{\Svs}{S^{V}\!{^{s}}}
+
+\newcommand{\Svn}{(S^{V})^n}
+\newcommand{\Svm}{(S^{V})^m}
+\newcommand{\Svs}{(S^{V})^s}
+
+
+%\newcommand{\inj}{\mathcal{I}}
+\newcommand{\inj}{\vartheta}
+
+\newcommand{\bi}{\mathbf{i}}
+\newcommand{\bj}{\mathbf{j}}
+\newcommand{\bk}{\mathbf{k}}
+\newcommand{\bm}{\mathbf{m}}
+\newcommand{\bn}{\mathbf{n}}
+\newcommand{\bp}{\mathbf{p}}
+\newcommand{\bq}{\mathbf{q}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bs}{\mathbf{s}}
+
+\newcommand{\OGop}{G\mathscr{O}^{op}[\sT]}
+\newcommand{\Cp}{\mathbb{C}^{\mathrm{pre}}}
+
+
+\begin{document}
+
+
+\maketitle
+
+\tableofcontents
+
+\section*{Introduction}
+We apply the newly developed framework in \cite{kong2024group} to motivic homotopy theory to write down an $\bA^1$-homotopical analog of Beck monadicity of the kind presented in \cite{May09Einfty}. At this level, there is no mention of group completions, or of any external monads. It is however fruitful to be able to say something about algebras over a monad external to the adjunction (since it often happens that such a monad has calculational information invisible to the adjunction monad). We identify such a monad, namely the one arising from the Barratt-Eccles operad, and we write down a corresponding recognition principle for its algebras. Recent work in \cite{EHK21} proves an analog of the Segalic recognition principle for motivic infinite loop spaces. What we are after here is the analog of an operadic recognition principle in motivic homotopy theory. The story unfolds naturally in two parts.\\
+
+The first part is devoted to studying the loop-suspension adjunction between spaces and spectra, and the monad that arises from this adjunction. The starting point for the homotopy theory of schemes is Morel and Voevodsky's definition of the closed model category of algebraic spaces (we will denote this category by $\sT$, and refer to its objects as \emph{spaces}). The key properties of their construction are recalled in Section \ref{sec:prelim}. As for spectra, one might choose to use Voevodsky's category of $\bT$-spectra (created in analogy with sequential $\OM$-spectra in topology) which is symmetric monoidal under the smash product. However, the result of G. Lewis in \cite{Lewis91}, renders this choice incompatible with the loop-suspension adjunction such that the sphere spectrum is a unit for the smash product. The choice we make is that of the category of coordinate-free spectra defined by P. Hu in \cite{Hu03} (we will denote this category by $\sS$, and refer to its objects as \emph{spectra}). This is the analogous notion to the topological coordinate-free spectra in \cite{EKMM97} and \cite{LMS86}. The essential point of P. Hu's coordinate-free spectra is that they are indexed on cofinite subspaces of a universe $\oU \iso \bA^{\infty}$ (as opposed to finite dimensional subspaces, as in EKMM and LMS spectra). The loop-suspension adjunction that is naturally built into the context of \cite{Hu03}, and in complete analogy with the topological story, will be our starting point for this program. We will denote this adjunction by $(\SI^{\infty},\OM^{\infty})$, where $\SI^{\infty} \colon \sT \rtarr \sS$ is given by the suspension spectrum, and $\OM^{\infty} \colon \sS \rtarr \sT$ is given by the zeroth space. The objects in the image of $\OM^{\infty}$ are referred to as \emph{infinite loop spaces}. Section \ref{sec:coordfree} offers a presentation of P. Hu's coordinate-free spectra, and a definition of the $(\SI^{\infty},\OM^{\infty})$ adjunction. In Section \ref{sec:simpob} we present properties of the simplicial objects in $\sT$ and $\sS$. These properties are vital to the results in this paper, and their verification is required to use the framework of \cite{kong2024group}.
+Let $\GA = \OM^{\infty}\SI^{\infty}$ denote the adjunction monad in our context. $\GA$ acts naturally on the image of $\OM^{\infty}$ in $\sT$. Let $\GA[\sT]$ denote the category of $\GA$-algebras in $\sT$. There is a more structured variant of the adjunction that incorporates the $\GA$-action in $\GA[\sT]$. Namely, the zeroth space functor $\OM^{\infty}_{\GA} \colon \sS \rtarr \GA[\sT]$ as before is a right adjoint, with a left adjoint $\SI^{\infty}_{\GA} \colon \GA[\sT] \rtarr \sS$ (we think of $\SI^{\infty}_{\GA}$ as a coequalized version of $\SI^{\infty}$ with respect to the $\GA$-action).  The goal of the first part of the paper is to be able to collect enough homotopical preliminaries to plug into the framework of \cite{kong2024group} and obtain the following results\footnote{The term \emph{connective} in Thm. \ref{thm:0.2} is often replaced by \emph{very effective} in literature, but we use connective here to emphasize the axiomatized meaning}.
+
+\begin{thm}\label{thm:0.1}
+There is a functor $\mathrm{Bar} \colon \GA [\sT] \rtarr \sT$ written $Y \mapsto \overline{Y}$, a natural homotopy equivalence $\zeta \colon \overline{Y} \rtarr Y$, and a functor $\bE \colon \GA[\sT] \rtarr \sS$ such that there is a weak equivalence $\overline{Y} \rtarr \OM^{\infty}_{\GA} \bE Y$.
+\end{thm}
+
+\begin{thm}\label{thm:0.2}
+The pair $(\bE,\OM^{\infty}_{\GA})$ induces an equivalence between the homotopy category of $\GA$-algebras in $\sT$ and the homotopy category of connective spectra in $\sS$.
+\end{thm}
+
+\noindent This is done in Section \ref{sec:htpymonad}. The lack of necessity for grouplike objects and group completions in these results is curious and tells us that the category of $\GA$-algebras and that of connective spectra are not homotopically distinct. This is the homotopical version of Beck monadicity in our context. We are now interested in analogues of the \emph{operadic} monads that appear in the space-level story. They turn out to be the interesting examples in nature since they provide information about the \emph{structure} of infinite loop spaces invisible to $\GA$.\\
+
+The second part is devoted to the study of group completions in the motivic context, and algebras over the Barratt-Eccles operad. The Barratt-Eccles operad was defined in the sequence of papers following \cite{Barratt1974oper} for the study of infinite loop spaces in topology. Their approach, simplicial enough, applies to our context as well. Said simply, the Barratt-Eccles operad is defined by $\sP(j) = N \sE \SI_j$ (where $\sE$ denotes the indiscrete category functor, and $N$ denotes the nerve of a category). Denote by $\bP$, the monad associated to $\sP(*)$. Key properties of the Barratt-Eccles operad are quickly summarized in Section \ref{sec:be}. The framework of \cite{kong2024group} and our work in Part \ref{part:1} would require that $\bP$ act on the image of $\OM^{\infty}$. This is not strictly true. While there is no well-defined action of $\bP$ on $\OM^{\infty}$, we can complete $\OM^{\infty}$ with respect to $\bP$ to a functor $\hat{\OM}^{\infty}$ that admits a $\bP$-action. $\hat{\OM}^{\infty}$ has a right adjoint, namely a completion $\hat{\SI}^{\infty}$. The functor $\hat{\OM}^{\infty}$ was the starting point of \cite{Barratt1974oper2}, but the perspective of a completed adjunction is new here. The work there shows that $\OM^{\infty}E$ is weak equivalent to $\hat{\OM}^{\infty}E$ for each connective $E \in \sS$. The argument can be extended to show that $\hat{\SI}^{\infty}X$ is also weak equivalent to $\SI^{\infty}X$ for every $X \in \sT$. This allows us to use the homotopical preliminaries developed in Part \ref{part:1} for the $(\hat{\SI}^{\infty},\hat{\OM}^{\infty})$ adjunction. The perspective of the completed adjunction is developed in Section \ref{sec:compl}. Let $\bP[\sT]$ denote the category of $\bP$-algebras in $\sT$. The category of $\bP$-algebras is homotopically quite distinct from that of connective spectra. This is captured by the fact that every infinite loop space is \emph{grouplike}, while $\bP$-algebras are a priori not. Therefore a precise formulation of the recognition principle for $\bP$-algebras requires a careful treatment of grouplike objects and group completions in the motivic context. This is done in Section \ref{sec:grplike}. The work in \cite{Barratt1974oper} provides natural choices for these definitions, and comparing to the \emph{formal} definitions for $\bP$-algebras, we find that they are equivalent to the classical definitions we make here (developed in close analogy with the topological story presented in Section 4.1). \\
+
+Let $\hat{\et}$ denote the unit of the completed adjunction $(\hat{\SI}^{\infty},\hat{\OM}^{\infty})$. The results of \cite{Barratt1974oper2}, formulated in the language we have developed throughout the paper (following \cite{kong2024group}), state:
+
+\begin{thm}\label{thm:approxthmpalg}
+For a space $X$, the map $\alpha \colon \bP X \rtarr \hat{\OM}^{\infty}_{\bP} \hat{\SI}^{\infty} X$ defined by the composite $\alpha \colon \bP X \xrightarrow{\bP \hat{\eta}} \bP \hat{\OM}^{\infty}_{\bP} \hat{\SI}^{\infty} X \xrightarrow{\theta} \hat{\OM}^{\infty}_{\bP} \hat{\SI}^{\infty} X$ is a group completion.
+\end{thm}
+
+\noindent We recall the proof of the above in Section \ref{sec:approx}.
+In Section \ref{sec:berec} we use homotopical preliminaries developed in Part \ref{part:1}, and plug into the framework of \cite{kong2024group}, to write:
+
+\begin{thm}\label{thm:BErecog}
+There is a functor $\mathrm{Bar} \colon \bP[\sT] \rtarr \bP[\sT]$, written $Y \mapsto \overline{Y}^{\bP}$, and a natural homotopy equivalence $\ze \colon \overline{Y}^{\bP} \rtarr Y$ such that the unit $\hat{\et}_{\bP} \colon \overline{Y}^{\bP} \rtarr \hat{\OM}^{\infty}_{\bP} \hat{\SI}^{\infty}_{\bP} \overline{Y}^{\bP}$ is a group completion. Moreover, the pair $(\hat{\SI}^{\infty}_{\bP}, \hat{\OM}^{\infty}_{\bP})$ induces an adjoint equivalence between the homotopy category of grouplike $\bP$-algebras and the homotopy category of connective spectra.
+\end{thm}
+
+%We begin by recalling key properties of Morel's and Voevodsky's foundational work on the homotopy theory of schemes (see \cite{voev96pre}, \cite{Mor99fr}, and \cite{morel12A1AT}) -- particularly, their definition of the closed model category of algebraic spaces. 
+
+\section*{Acknowledgements}
+Words fail to express my gratitude toward Peter May for everything he has put into this program and into this project which was very much joint work with him. My heartfelt gratitude also goes out to Alicia Lima who co-advised me through this project. I also thank Aravind Asok for  clarifications on the $\bA^1$-homotopy type of configuration spaces -- the direction \emph{not} taken in Part 2 for good measure, is due to his comments. Much thanks goes out to fellow participants Kloudifold Zhang (for suggesting me to look into the Barratt-Eccles operad), Yoyo Jiang (for helpful categorical and simplicial remarks), and Akash Narayanan (for great conversation throughout the summer).
+
+\part{The adjunction monad and homotopical monadicity}\label{part:1}
+\section{Preliminaries}\label{sec:prelim}
+This section presents the Morel-Voevodsky construction of the model category of algebraic spaces, developed in  \cite{voev96pre}, \cite{MV99}, and \cite{morel12A1AT} -- and properties of this category that we will find useful in this part. Let $\bk$ be a field, and $S$ a smooth affine scheme of finite type over $\bk$ (in particular, we ask that $S = \Spec(R)$ for a noetherian integral domain $R$). We define $\mathrm{Sm}_S$ to be the category of smooth schemes of finite type over $S$. Whenever we refer to a scheme, we mean an object of $\mathrm{Sm}_S$. The category $\mathrm{Sm}_S$ is infeasible for homotopy theory since it is not cocomplete. Therefore we cannot use the objects of $\mathrm{Sm}_S$ to mean ``spaces.'' The fix for this, is to consider simplicial sheaves over $\mathrm{Sm}_S$ as our spaces. To speak of sheaves, we must first endow $\mathrm{Sm}_S$ with a Grothendieck topology. \cite{MV99} identified the Nisnevich topology, which is finer than the Zariski topology but coarser than the \'Etale topology on $\mathrm{Sm}_S$, to be a convenient choice. It allows for our site to enjoy some nice properties of both the \'Etale and Zariski topologies. It is defined so that the covering sieves are those families of \'etale morphisms $\phz_i \colon \{U_i\} \rtarr X$ such that for any $x \in X$, there exists an $i$ and a $u \in U_i$ with the corresponding map on residue fields being an isomorphism (that maps to $x$ with the same residue field). Equivalently, the Nisnevich coverings are generated by the diagrams
+
+\[\xymatrix{U \times_X V \ar[d] \ar[r] & V \ar[d]^{p} \\ U \ar[r]_{i} & X},\]
+
+\noindent with $p \colon V \rtarr X$ an \'etale morphism and $i \colon U \rtarr X$ an open embedding such that $p^{-1}(X \setminus U) \rtarr X \setminus U$ is an isomorphism. These furnish the elementary covering diagrams of the Nisnevich topology on $\mathrm{Sm}_S$, so that a presheaf $\oF$ on $\mathrm{Sm}_S$ is a sheaf iff $\oF$ takes each diagram as above to a pullback square (\cite{MV99} Prop. 3.1.4). We write $(\mathrm{Sm}_S)_{Nis}$ to denote the site of $\mathrm{Sm}_S$ equipped with the Nisnevich topology. The promised definition of the category of spaces over $S$ is then: \[\mathrm{Spc}(S) := \sSh((\mathrm{Sm}_S)_{Nis}).\]
+\noindent We can also define the category of based spaces over $S$ to be $\mathrm{Spc}(S)_{\bu} = S \downarrow \mathrm{Spc}(S)$. We write $\sT$ to mean this category, and we call its objects spaces. The presheaf represented by an object $X \in \mathrm{Sm}_S$ is in fact a sheaf in the Nisnevich topology (this is due to \cite{SGA4V2} VII.2a). We also use $\sT_{\bk}$ to mean the category $\mathrm{Spc}(\bk)_{\bu}$ of spaces over $\bk$.\\
+
+We note some important properties of the objects of $\sT$ before moving on to its homotopical properties and its model structure. $\sT$ is a complete and cocomplete category. We also have the following characterization of each space as a small colimit.
+\begin{prop}\label{prop:1.1}
+Every object of $\sT$ is a small colimit of smooth schemes in $\mathrm{Sm}_S$. 
+\end{prop}
+
+This is a standard fact, but we sketch a rough idea of the proof here. A space $\oF \in \mathrm{Spc}(S)$ is a sheaf on $\mathrm{Sm}_S$. Define $\mathrm{Sm}_{S(\oF)}$ to be the category whose objects are pairs $(X,t)$ with $X \in \mathrm{Sm}_S$ and $t \in \oF(X)$ and morphisms $f \colon (X,t) \rtarr (Y,z)$ are morphisms $f \colon X \rtarr Y$ such that $\oF(f)$ takes $z$ to $t$. The Yoneda lemma then yields a presheaf isomorphism $\oF \iso \colim_{(X,t) \in \mathrm{Sm}_{S(\oF)}} \Hom(-,X)$. Passing to sheafification, and noting that $\mathrm{Sm}_S$ is a small site, provides the required result.\\
+%For any presheaf $\oF$ on $\mathrm{Sm}_S$, denote by $\mathrm{Sm}_{S(\oF)}$ the category whose objects are pairs $(X,t)$ for $X \in \mathrm{Sm}_S$ and $t \in \oF(X)$, and morphisms $f \colon (X,t) \rtarr (Y,z)$ are morphisms $f \colon X \rtarr Y$ in $\mathrm{Sm}_S$, such that $\oF(f) \colon \oF(Y) \rtarr \oF(X)$ takes $z$ to $t$. For any $f \colon (X,t) \rtarr (Y,z)$ in $\mathrm{Sm}_{S(\oF)}$, there is an induced natural transformation $\Hom(-,X) \rtarr \Hom(-,Y)$ (where the hom-sets are taken in $\mathrm{Sm}_S$). Moreover, there are maps of presheaves $\Hom(-,X) \rtarr \oF$ for each $(X,t) \in \mathrm{Sm}_{S(\oF)}$ provided by the Yoneda lemma, that commute with the natural transformations induced by morphisms in $\mathrm{Sm}_{S(\oF)}$. These natural transformations furnish a map of presheaves $\colim_{(X,t) \in \mathrm{Sm_{S(\oF)}}}\Hom(-,X) \rtarr \oF$. This map is in fact an isomorphism of presheaves. Indeed, consider a $U \in \mathrm{Sm}_S$, and an element $f$ of $\Hom(U,X)$ for some $(X,t) \in \mathrm{Sm}_{S(\oF)}$. Since the natural map on hom-sets induced by $f$ takes $\mathrm{id} \in \Hom(U,U)$ (with $(U,\oF(f)(t)) \in \mathrm{Sm}_{S(\oF)}$) to $f \in \Hom(U,X)$, $f$ is identified in the colimit to the unique morphism $\mathrm{id} \in (U,\oF(f)(t))$ (with $t \in \oF(X)$ for some $X \in \mathrm{Sm}_S$). Moreover $\mathrm{Sm}_S$ is a small site. It follows that $\oF \iso \colim_{(X,t) \in \mathrm{Sm}_{S(\oF)}} \Hom(-,X)$ as presheaves. Passing to sheaves by sheafification (which as a left adjoint, commutes with colimits), we find that $\oF$ is a small colimit of smooth schemes (or rather representable sheaves).
+
+
+The following is vital to the spectrification defined in \ref{sec:coordfree}.
+
+\begin{prop}\label{prop:1.2}
+Every object of $\mathrm{Sm}_S$ is compact in $\sT$
+\end{prop}
+\begin{proof}
+Let $\oI$ be a small directed category and $D \colon \oI \rtarr \mathrm{Spc}(S)$ be a functor. Let $X \in \mathrm{Sm}_S$ be a smooth scheme (i.e. a representable sheaf). At the presheaf level, the Yoneda lemma provides: $\Hom(X, \varinjlim D) \iso (\varinjlim D)(X)$ and $\varinjlim \Hom(X, D) \iso \varinjlim D(X)$. Again, as presheaves, we know $(\varinjlim D)(X) \iso \varinjlim D(X)$. It suffices to show that $\varinjlim D$ (with the direct limit taken at the presheaf level) is in fact a Nisnevich sheaf. To do this, it suffices to show that $\varinjlim D$ takes each elementary covering diagram (defined above) to a pullback square. We know that each $D(i)$ for $i \in \oI$ certainly does (as a sheaf). Since the pullback squares here are finite limits of sets, they are stable under small directed colimits. Therefore $\varinjlim D$ also takes each elementary covering diagram to a pullback square.
+\end{proof}
+
+There is a small caveat in the above proof/s. We had forgotten to say anything about basepoints. Now we say all that needs to be said, following \cite{Hu03}. A direct limit of spaces in the unbased category is in fact a direct limit in $\sT$. Given an $X \in \sT$, thinking of it as an unbased space, there is a small directed category $\oI$ and a functor $D \colon \oI \rtarr \mathrm{sSh}((\mathrm{Sm}_S)_{Nis})$ such that $X \iso \varinjlim D$ in $\mathrm{Spc}(S)$. The datum of a basepoint of $X$ is just a morphism $S \rtarr X$. Since $S$ is a compact object as a point, this morphism lifts to one of the $S_i$ for some $i \in \oI$. Consider the comma category $\oJ$ of objects in $\oI$ with a map from $i$. Writing $E$ for the restriction of $D$ to $\oJ$, we have (in $\sT$) $X \iso \varinjlim E$.\\
+
+We now get to the Quillen model structure on $\sT$ and the notion of an $\bA^1$-homotopy in $\sT$, following \cite{MV99}. We write $\bA^1$ to mean $\bA^1_S$, the affine line over $S$. Two maps $f, g \colon X \rtarr Y$ in $\sT$ are said to be $\bA^1$-homotopic if there is a map $h \colon \bA^1 \times X \rtarr Y$ in $\mathrm{Spc}(\bk)$, such that the composite $X \xrightarrow{\io_0} \bA^1 \times X \xrightarrow{h} Y$ is $f$, and $X \xrightarrow{\io_1} \bA^1 \times X \rtarr Y$ is $g$ (where $\io_j$ is induced by the inclusion of $S$ into $\bA^1_S$ as $j$). 
+
+\begin{defn}
+A map $f \colon X \rtarr Y$ in $\sT$ is said be a:
+\begin{enumerate}
+\item simplicial cofibration, if it is a monomorphism.
+\item simplicial weak equivalence if for every $x^* \in \mathrm{Sm}_S$, the induced map $f^* \colon x^*(X) \rtarr x^*(Y)$ is a weak equivalence of simplicial sets.\footnote{Recall that one may think of each object of a site $\oS$ as a functor $\mathrm{Sh}(\oS) \rtarr \mathbf{Set}$.}
+\item simplicial fibration if it has the right lifting property (RLP) with respect to all trivial simplicial cofibrations.
+\end{enumerate}
+\end{defn}
+
+We do not provide a proof here, but the above definitions provide a Quillen model structure on $\sT$ known as the simplicial model structure (see \cite{Jardine87simppr} Cor. 2.7). Denote by $\oH_s(\sT)$ the homotopy category of $\sT$ with respect to the simplicial model structure. We now localize this model structure with respect to $\bA^1$-homotopies. The first steps towards such a localization are the following definitions.
+
+\begin{defn}
+We say $X \in \sT$ is $\bA^1$-local if for every $Y \in \sT$, the map on homotopy classes $[Y,X]_{\oH_s(\sT)} \rtarr [Y \times \bA^1, X]_{\oH_s(\sT)}$ induced by the projection $Y \times \bA^1 \rtarr Y$ is a bijection.
+\end{defn}
+
+\begin{defn}
+A map $f \colon X \rtarr Y$ in $\sT$ is said to be an
+\begin{enumerate}
+\item $\bA^1$-cofibration if it is a monomorphism.
+\item $\bA^1$-weak equivalence if for any $\bA^1$-local $Z \in \sT$, the map on homotopy classes $f^* \colon [Y,Z]_{\oH_s (\sT)} \rtarr [X,Z]_{\oH_s(\sT)}$ is a bijection.
+\item $\bA^1$-fibration if it has the right lifting property with respect to all trivial cofibrations.
+\end{enumerate}
+\end{defn}
+
+\cite{MV99} Thm. 2.21 shows that the above $\bA^1$-local definitions prescribe a Quillen model structure on $\sT$. For the most part, the verification of the model category axioms follow directly from the results of Section 2 in \cite{Jardine87simppr}. We also have the following characterization of spaces upto simplicial weak equivalence. We denote by $\oH (\sT)$ the homotopy category of $\sT$ associated to this model structure.
+
+\begin{prop}
+Every object in $\sT$ is simplicially weak equivalent to a homotopy colimit of finite colimits of smooth schemes. 
+\end{prop}
+\begin{proof}
+The proof is immediate from the work of \cite{bousfield1972homotopy} (see XII.3.4), forgetting basepoints using the fix following Prop. \ref{prop:1.2}. A simplicial sheaf $X = \{X_n\}$ is a diagram in $\mathrm{Sh}((\mathrm{Sm}_S)_{Nis})$ indexed by $\DE^{op}$. By \cite{bousfield1972homotopy} XII.3.4, $\hocolim_{\DE^{op}} X_n \rtarr X$ is a simplicial weak equivalence.
+\end{proof}
+
+$\sT$ is also tensored and cotensored over itself. That is to say, there is a smash product $\wedge \colon \sT \times \sT \rtarr \sT$, and there are internal Hom-space functors $\underline{\Hom}_{\sT} (X, -)$ (right adjoint to $- \wedge X \colon \sT \rtarr \sT$) defined in the usual way.\\
+
+We close by discussing the $\bA^1$-homotopy sheaves, $\pi^{\bA^1}_n(-,*)$ of an (unbased) space. Let $X \in \mathrm{Spc}(S)$. For $n=0$, define $\pi_0^{\bA^1}(X)$ to be the sheaf associated to the presheaf $U \mapsto [U,X]_{\oH(\sT)}$ (for $U \in \mathrm{Sm}_S$). For $n \geq 1$, and a choice $*$ of a basepoint $S \monoto X$, define $\pi_n^{\bA^1}(X,*)$ to be the sheaf associated to the presheaf $U \mapsto [\SI^n U_+, X]_{\oH(\sT)}$ (here $\SI^n$ denotes the simplicial suspension, and we conflate $X$ with the based space $X$ equipped with the basepoint $*$). We have the following motivic analog of Whitehead's theorem, proven in \cite{MV99}.
+
+\begin{thm}\label{thm:1.1}
+A map of spaces $f \colon X \rtarr Y$ in $\sT$ is an $\bA^1$-weak equivalence iff it induces isomorphisms of sheaves $\pi_0^{\bA^1}(X) \xrightarrow{\sim} \pi_0^{\bA^1}(Y)$, and $\pi_n^{\bA^1}(X,*) \xrightarrow{\sim} \pi_n^{\bA^1}(Y,\star)$ for every choice of basepoints $*$ for $X$ and $\star$ for $Y$ (as objects in $\mathrm{Spc}(S)$). 
+\end{thm}
+
+A most important property of the $\bA^1$-motivic homotopy sheaves is that of the long exact sequence associated to a quasifibration, analogous to the one in topology.
+
+\begin{thm}\label{thm:1.2}
+If $F \rtarr X \rtarr Y$ is a quasifibration of spaces, then there is a natural long exact sequence of homotopy sheaves:
+\[\cdots \rtarr \pi^{\bA^1}_{n+1}(Y) \rtarr \pi^{\bA^1}_n(F) \rtarr \pi_n^{\bA^1}(X) \rtarr \pi^{\bA^1}_n(Y) \rtarr \cdots\]
+\end{thm}
+
+\noindent This is the natural long exact sequence of presheaves, passed through Nisnevich sheafification (which is exact). In the particular case of an inclusion of a subspace $\iota \colon A \monoto Y$, and the homotopy fiber of this inclusion, we get an analog of the long exact sequence of relative homotopy groups.\\
+
+Fixing terminology for the rest of the paper, we say that $X \in \sT$ is \emph{connected} if $\pi_0^{\bA^1}(X)$ is terminal in the category of sheaves of sets (i.e. a constant sheaf at a singleton set). Similarly we say $X \in \sT$ is $n$-\emph{connected} if $\pi_q^{\bA^1}(X)$ is terminal for $q \leq n$ (in the category of sheaves of sets for $q=0$, of groups for $q=1$, and of abelian groups for $q \geq 2$). We say that a map $f \colon X \rtarr Y$ in $\sT$ is $n$-\emph{connected} if its homotopy fiber $Ff$ is $(m-1)$-connected (by Thm. \ref{thm:1.2} this means that $f$ induces isomorphisms $\pi_q^{\bA^1}(X) \xrightarrow{\sim} \pi_q^{\bA^1}(Y)$ for $q < n$, and a surjection $\pi_n^{\bA^1}(X) \epito \pi_n^{\bA^1}(Y)$). We say that a pair $(X,A)$ (i.e., an inclusion $\iota \colon A \rtarr X$ in $\sT$) is $n$-\emph{connected} if $\iota$ is $n$-connected.\\
+
+The description of $\bA^1$-homotopy sheaves provided by the Hurewicz theorem is occasionally quite helpful. Towards that direction, we introduce
+the $\bA^1$-homology sheaves of a space, defined in \cite{morel05stab}. We write $\mathrm{Ch}_{\geq 0}(\mathbf{Ab}(S))$ to denote the category of chain complexes $C_{\bu}$ of abelian sheaves on $\mathrm{Sm}_S$ (of differential degree $-1$) with $C_n \iso 0$ for $n < 0$ (we use $\mathbf{Ab}(S)$ to denote the abelian category of abelian sheaves on $\mathrm{Sm}_S$). The normalized chain complex functor $C_{\bu} \colon \sT \rtarr \mathrm{Ch}_{\geq 0}(\mathbf{Ab}(S))$ induces a functor on the simplicial homotopy category $C_{\bu} \colon \oH_{s}(\sT) \rtarr D(\mathbf{Ab}(S))$ which $\bA^1$-localizes to a functor $C^{\bA^1}_{\bu} \colon \oH(\sT) \rtarr D_{\bA^1}(\mathbf{Ab}(S))$ into the full subcategory of $\bA^1$-local complexes in $D(\mathbf{Ab}(S))$. On spaces, if $L_{\bA^1}(-) \colon D(\mathbf{Ab}(S)) \rtarr D_{\bA^1}(\mathbf{Ab}(S))$ denotes the $\bA^1$-localization functor left adjoint to the inclusion of $\bA^1$-local complexes, we can write $C_{\bu}^{\bA^1}(X) \iso L_{\bA^1}(C_{\bu}(X))$. We define the $n$th homology sheaf of $X$, written $H^{\bA^1}_{n}(X)$, to be the $n$th homology of $C^{\bA^1}_{\bu}(X)$. We define the $n$th reduced homology sheaf of $X$ (written $\tilde{H}^{\bA^1}_{n}(X))$ to be $\ker(H^{\bA^1}_{n}(X) \rtarr H^{\bA^1}_n(S))$, so that $H^{\bA^1}_{\bu}(X) \iso \bZ \oplus \tilde{H}^{\bA^1}_{\bu}(X)$ as graded abelian sheaves. The following was proved in \cite{morel12A1AT}.
+\begin{thm}
+Let $n \geq 2$ be an integer, and let $X$ be an $(n-1)$-connected space. Then for each $i \in \{0, \cdots, n-1\}$, $\tilde{H}^{\bA^1}_i(X) \iso 0$. Moreover the Hurewicz morphism $\pi_n^{\bA^1}(X) \rtarr H^{\bA^1}_n(X)$, defined in analogy with the topological Hurewicz morphism, is an isomorphism. 
+\end{thm}
+
+\noindent There is also a relative version of the Hurewicz theorem proven in \cite{shimizu2022rel} that we note below. Given a pair $(X,A)$ in $\sT$ (so an inclusion $\iota \colon A \rtarr X$), we write $\pi_n^{\bA^1}(X,A)$ to mean $\pi_n^{\bA^1}(F\iota)$ (here $Ff$ is the homotopy fiber of $f$), and $H_n^{\bA^1}(X,A)$ to mean $H_n^{\bA^1}(C\iota)$ (here $Cf$ is the homotopy cofiber of $f$). 
+\begin{thm}
+Let $n \geq 2$. For any pair $(X,A)$ in $\sT$, there exist morphisms $h_q \colon \pi_q^{\bA^1}(X,A) \rtarr H_q^{\bA^1}(X,A)$ such that if $A$ is simply connected, $X$ is connected, and $(X,A)$ is $(n-1)$-connected, then $h_n \colon \pi_n^{\bA^1}(X,A) \rtarr H_n^{\bA^1}(X,A)$ is an isomorphism.  
+\end{thm}
+
+\section{Coordinate-free spectra and the $(\SI^{\infty},\OM^{\infty})$ adjunction}\label{sec:coordfree}
+In this section, we recall the construction of the coordinate-free spectra of \cite{Hu03}, and define the adjunction central to this paper. Recall that our base scheme was $S = \Spec(R)$ for a Noetherian integral domain $R$. A natural choice for our indexing universe would be the infinite-dimensional affine space over $S$ defined as follows. We define the universe to be the countably infinite-dimensional $R$-module $\oU = \bigoplus_{\infty} R$. \footnote{It is perfectly acceptable for our purposes to fix the universe here. \cite{Hu03} presents the theory for arbitrary universes.} We say $Z$ is a \emph{finite dimensional subspace} of $\oU$ if it is a finitely generated projective submodule of $\oU$ such that the inclusion $Z \monoto \oU$ splits. Fix a basis $\{e_1, e_2, \cdots\}$ for $\oU$ and define $T_n$ to be the free submodule generated by $\{e_1, \cdots, e_n\}$ so that $\oU \iso \colim_n T_n$ as an $R$-module. Now to think of $\oU$ as a space over $S$, it suffices to note that every finitely generated projective $R$-module can be thought of as a vector bundle over $S$. Each $T_n$ then corresponds to the trivial bundle $\bA^n_S$, the $n$-dimensional affine space over $S$. To define $\oU$ as a space (over $S$), we only need to write $\oU \iso \colim_n T_n \iso \colim_n \bA^n_S \iso \bA^{\infty}_S$. Note that $\oU$ is not really an object of $\mathrm{Sm}_S$, but it is an ind-scheme over $S$. Similarly, a finitely generated projective submodule $Z$ of $\oU$ can be thought of as a finite-dimensional subbundle of $\oU$ over $S$. When the inclusion $Z \monoto \oU$ is split, we say that $Z$ is a subspace of $\oU$.\\
+
+We had promised to index our spectra over the cofinite subspaces of $\oU$. These subspaces, in words, are the subspaces of $\oU$ of finite codimension (i.e., the split projective submodules of finite codimensions thought of as vector bundles over $S$). To put this definition on rigorous footing, we first define the Grassmannian $Gr_{S}^{cof}(\oU)$ of cofinite subspaces of $\oU$. To do this, we first define the Grassmannian $Gr_{\bk}^{cof}(\oU_{\bk})$ over $\bk$ of cofinite subspaces of $\bA^{\infty}_{\bk}$, and write $Gr_{S}^{cof}(\oU) := Gr_{\bk}^{cof}(\oU_{\bk} \times_{\Spec(\bk)} S$. For $N \in \bN$ and $m \leq N$, define the Grassmannian $Gr_{\bk}^{m}(\bA^N)$ to be the space (over $\bk$) of subspaces of $\bA^N$ whose direct sum with $\bA^m$ is $\bA^n$ (here $\bA^m \monoto \bA^N$ by the inclusion into the first $m$ coordinates of $\bA^N$). Identifying $\oU_{\bk}$ with $\colim_N \bA^N$, we then define $Gr_{\bk}^{cof}(\oU_{\bk})$ to be the colimit $\colim_m \lim_{N \geq m} Gr_{\bk}^m(\bA^N)$. The limit is taken over the restriction maps $Gr_{\bk}^{m}(\bA^{N+1}) \rtarr Gr_{\bk}^m (\bA^N)$ taking $V$ to $V \cap \bA^N$ (here we note $\bA^N \subset \bA^{N+1}$ by inclusion into the first $N$ coordinates). We say that a map $V \colon S \rtarr Gr^{cof}_{\bk}(\oU_{\bk})$ over $\bk$ is a cofinite subspace of $\oU$, in other words, the cofinite subspaces of $\oU$ precisely correspond to the split projective submodules of $\oU$ of finite codimension. We similarly define an $n$-dimensional subspace of $\bA^N_S$ to be a map $Z \colon S \rtarr Gr_{\bk}(n,\bA^N_{\bk})$ (here $Gr_{\bk}(n,\bA^N_{\bk})$ is the Grassmannian of $n$-dimensional subspaces over $\bk$ of $\bA^N_{\bk}$). Again, this is just to say that the finite-dimensional subspaces are the finite-dimensional split projective submodules. For $U$ an affine space over $\bS$, and subspaces $V, W$ of $U$ with trivial intersection, we denote by $V \oplus W$ the internal direct sum of $V$ and $W$.\\
+
+We are now ready to define our indexing category. Define the category of cofinite subspaces of $\oU$, written $\oC(\oU)$, to be the category with objects cofinite subspaces of $\oU$ and morphisms $Z \colon U \rtarr V$ given by finite-dimensional subspaces $Z \subset U$ such that $V \oplus Z  = U$. The composite of morphisms $Z \colon U \rtarr V$ and $T \colon V \rtarr W$ is the finite-dimensional subspace $Z \oplus T$ of $U$ (note that $W \oplus (Z \oplus T) = U$. \cite{Hu03} Lem. 2.3 shows that $\oC(\oU)$ is a small directed category.\\
+
+Let $Z$ be a finite-dimensional space (alias, finite-dimensional projective module) over $S$. Thought of as a space, $Z$ looks like a vector bundle over $S$ equipped with a rational point $0 \colon S \rtarr Z$ (alias the zero-section of $Z$ as a vector bundle). We define the space $S^Z$ by the pushout \[\xymatrix{
+Z \setminus \{0\} \ar[r] \ar[d] & Z \ar[d]\\
+S \ar[r] & S^Z.
+}\]
+\noindent We think of $S^Z$ as the one-point compactification of $Z$ over $S$. For $X \in \sT$, we write $\OM^Z X$ to mean $\underline{\Hom}_{\sT} (S^Z, X)$. 
+
+\begin{defn}
+A \emph{prespectrum} $D$ is a family of spaces $\{D_U\}_{U \in \oC(\oU)}$, together with morphisms $\rho^{U}_{V,Z} \colon D_U \rtarr \OM^ZD_V$ (for every morphism $Z \colon U \rtarr V$ in $\oC(\oU)$) satisfying the following conditions:
+\begin{enumerate}[label=\alph*)]
+\item $\rho^{U}_{U,0} = \mathrm{id}_{D_U}$
+\item For every $Z \colon U \rtarr V$, and $T \colon V \rtarr W$ in $\oC(\oU)$, \[\rho^U_{W, Z \oplus T} = (\OM^Z \rho^{V}_{W,T}) \circ \rho^{U}_{V, Z}.\]
+\end{enumerate}
+\noindent The morphisms $\rho^{U}_{V,Z}$ are called the \emph{structure maps} of $D$. Given prespectra $D$ and $D'$, we call a collection of maps $\{f_U \colon D_U \rtarr D'_U\}_{U \in \oC(\oU)}$ whose elements are compatible with the structure maps, a map of prespectra from $D$ to $D'$ (written $f \colon D \rtarr D'$). Prespectra defined this way form a category (under the usual composition) that we denote by $p\sS$
+\end{defn}
+
+\begin{defn}\label{defn:spectra}
+We say that a prespectrum $E$ is a \emph{spectrum}, if all of its structure maps are isomorphisms. We call a map of prespectra between two spectra, a map of spectra. Spectra defined this way form a category (under the usual composition) that we denote by $\sS$
+\end{defn}
+
+\noindent All limits in $\sS$ (and all limits and colimits in $p\sS$) can be computed spacewise, just as in the topological case. Denote by $R \colon p\sS \rtarr \sS$ the forgetful functor obtained from \ref{defn:spectra}, obtained by forgetting that the structure maps are isomorphisms. $R$ admits a left adjoint $L$ that we now describe. Thanks to the Nisnevich topology, the story here is much simpler than in topology where one must first pass through inclusion prespectra and Freyd's adjoint functor theorem.
+
+\begin{prop}\label{prop:2.1}
+There exists a functor $L \colon p \sS \rtarr \sS$ called spectrification, defined by $D \mapsto LD$ where $(LD)_U = \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z D_V$ with prescribed structure maps $\rho^{U}_{W,T} : (LD)_U \xrightarrow{\sim} \OM^T (LD)_W$. Here the colimit is taken over the maps $\OM^Z D_V \rtarr \OM^{Z'}D_{V'}$ given by $\OM^{Z}\rho^{V}_{V', T}$ for maps $T \colon (V,Z) \rtarr (V',Z')$. 
+\end{prop}
+
+\begin{proof}
+We show that $\{(LD)_U\}_{U \in \oC(\oU)}$ defines a spectrum. The functoriality of $L$ and the fact that it is left adjoint to $R$ are easier to see. It suffices to pick the structure maps $\rho^{U}_{W,T} : (LD)_U \xrightarrow{\sim} \OM^T (LD)_W$ for $T \colon U \rtarr W$ in $\oC(\oU)$. We begin with $(LD)_U$. 
+\begin{equation*}
+\begin{split}
+(LD)_U &= \colim_{(V,Z) \in U \downarrow \oC(\oU)} \OM^Z D_V\\
+&\iso \colim_{(V,Z) \in W \downarrow \oC(\oU)} \OM^{T \oplus Z} D_V\\
+&\iso \colim_{(V,Z) \in W \downarrow \oC(\oU)} \OM^T(\OM^Z D_V)\\
+&\iso \colim_{(V,Z) \in W \downarrow \oC(\oU)} \underline{\Hom}_{\sT}(S^T,\OM^Z D_V)\\ 
+&\iso \underline{\Hom}_{\sT}(S^T, \colim_{(V,Z) \in W \downarrow \oC(\oU)} \OM^Z D_V)\\
+&= \OM^T \colim_{(V,Z) \in W \downarrow \oC(\oU)} \OM^Z D_V\\
+&= \OM^T(LD)_W
+\end{split}
+\end{equation*}
+In the above chain of isomorphisms, we have used Prop. \ref{prop:1.2} to see that $S^T$ is compact in $\sT$ (thus allowing us to commute the internal Hom and the colimit). We now pick $\rho^{U}_{W,T}$ to be the composite of the above isomorphisms. 
+\end{proof}
+
+\noindent As a left adjoint, spectrification commutes with colimits. Therefore we may compute colimits in $\sS$ by first computing them at the prespectrum level and then spectrifying. The smash product $X \wedge E$ of a space $X$ with a spectrum $E$ is given by taking smash products spacewise, and then spectrifying. We also have the function spectrum $F(X,E)$ defined by $F(X,E)_U = \underline{\Hom}_{\sT} (X,E_U)$ for each $U \in \oC(\oU)$. These constructions show that $\sS$ is tensored and cotensored over $\sT$. One might wonder how the category $\sS$ compares with Voevodsky's original construction of the category of sequential $\bT$-spectra in \cite{voev96pre}. These concerns are addressed in Prop. 3.4 and Thm. 4.5 in \cite{Hu03} which show that these categories are in fact equivalent.\\
+
+We now define our adjunction $(\SI^{\infty},\OM^{\infty})$. For any $V \in \oC(\oU)$, there is the $V$-th space functor $\OM^{\oU}_V \colon \sS \rtarr \sT$ given by $\OM^{\oU}_V E = E_V$. This functor has a left adjoint $\SI^{\oU}_V \colon \sT \rtarr \sS$, called the $V$-th shift desuspension of the suspension spectrum, that we now construct. Let $X \in \sT$. For each finite-dimensional subspace of $\oU$, denote by $\SI^Z X$ the smash product $S^Z \wedge X$. For each $U \in \oC(\oU)$, define the space $D_V(X)_U = \bigvee_{Z \oplus U = V} \SI^Z X$, and $D_V(X)_U = S$ (a point) otherwise. If $W \subset U \subset V$ (so that $V \rtarr U \rtarr W$ in $\oC(\oU)$) such that $W \oplus T = U$, then for any $Z$ with $Z \oplus U = V$, we have $(T \oplus Z) \oplus W = V$. This furnishes compatible maps:
+\[\SI^T D_V(X)_V = \bigvee_{Z \oplus U = V} \SI^{T \oplus Z} X \rtarr \bigvee_{Z' \oplus W = V} \SI^{Z'}X = D_V(X)_W.\]
+By the $(\SI^Z, \OM^Z)$ adjunction, this furnishes a prespectrum $D_V(X) = \{D_V(X)_U\}_{U \in \oC(\oU)}.$ We define $\SI^{\oU}_V X := LD_V(X)$.\\
+It remains to show that $\SI^{\oU}_V$ is left adjoint to $\OM^{\oU}_V$. It suffices to work on the level of prespectra. Let $f \colon D_V(X) \rtarr E$ be a map of prespectra (with $D_V(X)$ as defined above), i.e. a collection of compatible maps $f_U \colon D_V(X)_U \rtarr E_U$. The $V$-th map $f_V$ is then just a map $X \rtarr E_V$. Conversely, let $g \colon X \rtarr E_V$ be a map of spaces. Let $U$ be a cofinite subspace of $V$. For each map $Z \colon V \rtarr U$ (that is, a finite subspace $Z \subset V$ such that $Z \oplus U = V$), we obtain the map $\SI^Z X \xrightarrow{\SI^Z g} \SI^Z E_V \rtarr E_U$ (where the last map is furnished by the structure maps of $E$). This prescription provides compatible maps $D_V(X)_U \rtarr E_U$, as needed.\\
+
+We denote by $\SI^{\infty}$ the functor $\SI^{\oU}_{\oU} \colon \sT \rtarr \sS$, and by $\OM^{\infty}$ the functor $\OM^{\oU}_{\oU} \colon \sS \rtarr \sT$. We call $\SI^{\infty} X$ the \emph{suspension spectrum} of $X$, and $\OM^{\infty}E$ the \emph{$\oU$-th space} of $E$. We have just shown that the pair $(\OM^{\infty},\SI^{\infty})$ is an adjunction between $\sT$ and $\sS$. We clear out some categorical preliminaries and notation now. Denote by $\GA$ the adjunction monad $\OM^{\infty}\SI^{\infty}$. The adjunction provides a unit map that we call $\eta \colon \mathrm{id}_{\sT} \rtarr \GA$, and a counit map that we call $\epz \colon \SI^{\infty}\OM^{\infty} \rtarr \mathrm{id}_{\sS}$. We write $\GA[\sT]$ for the category of $\GA$-algebras in $\sT$ (i.e., spaces in $\sT$ that admit a $\GA$-action). It is easy to note that $\OM^{\infty} E$ is a $\GA$-algebra for every $E \in \sS$. The $\GA$-action is provided by the composite $\GA \OM^{\infty} E = \OM^{\infty} \SI^{\infty} \OM^{\infty} E \xrightarrow{\OM^{\infty}\epz_E} \OM^{\infty}E$. On the other hand, $\SI^{\infty}$ is a $\GA$-functor in the sense that there is a natural map $\beta \colon \SI^{\infty} \GA \rtarr \SI^{\infty}$ defined by $\epz_{\SI^{\infty}X} \colon \SI^{\infty} \GA X \rtarr \SI^{\infty} X$ for every $X \in \sT$. We denote by $\OM^{\infty}_{\GA}$ the functor $\sS \rtarr \GA[\sT]$ obtained by just applying $\OM^{\infty}$. For each $X \in \GA[\sT]$ with $\GA$-action $\theta$, define $\SI^{\infty}_{\GA}X$ to be the coequalizer \[\xymatrix{
+\SI^{\infty}\GA X \ar@<-0.5ex>[r]_{\SI^{\infty}\theta} \ar@<0.5ex>[r]^{\beta_X} & \SI^{\infty}X \ar[r]& \SI^{\infty}_{\GA}X.
+}\]
+\noindent This construction defines a functor $\SI^{\infty}_{\GA} \colon \GA[\sT] \rtarr \sS$ that is left adjoint to $\OM^{\infty}_{\GA}$, and in doing so provides a coequalized adjunction $(\SI^{\infty}_{\GA},\OM^{\infty}_{\GA})$ between $\GA[\sT]$ and $\sS$.\\
+
+Getting back to spectra, we now define the stable $\bA^1$-local model structure on $\sS$. We begin with the stable simplicial model structure on $\sS$, which itself comes from the levelwise and stable simplicial model structures on $p\sS$. 
+
+\begin{defn}
+We say a map $f \colon D \rtarr E$ in $p\sS$ is a levelwise simplicial weak equivalence or fibration if for every $V \in \oC(\oU)$, the $V$-th space map $f_V \colon D_V \rtarr E_V$ is a simplicial weak equivalence or simplicial fibration of spaces (over $\bk$) respectively. We say $f$ is a levelwise simplicial cofibration if it satisfies the left lifting property (LLP) with respect to every levelwise simplicial acyclic fibrations. 
+\end{defn}
+
+\cite{Hu03} shows, using the small objects argument, that the distinguished classes of maps in the above definitions form a model structure on $p\sS$. We call this model structure the \emph{levelwise simplicial model structure} on $p\sS$. 
+
+\begin{defn}
+Let $f \colon D \rtarr E$ be a map in $p\sS$. We say $f$ is a:
+\begin{enumerate}
+\item stable simplicial cofibration if it is a levelwise simplicial cofibration.
+\item stable simplicial weak equivalence if it induces a bijection of colimits:
+\[\colim_{(W,Z) \in V \downarrow \oC(\oU)} [\SI^Z X_+, D_W]_{\oH_s(\sT_{\bk})} \iso \colim_{(W,Z) \in V \downarrow \oC(\oU)} [\SI^Z X_+, E_W]_{\oH_s(\sT_{\bk})}\]
+\noindent for every $V \in \oC(\oU)$ and every $X \in \mathrm{Sm}_S$.
+\item stable simplicial fibration if it satisfies the RLP with respect to all stable simplicial acyclic cofibrations.
+\end{enumerate}
+\end{defn}
+
+The Bousfield-Friedlander theorem of \cite{BF78Thm} shows that the above definitions form a model structure on $p\sS$. We call this model structure the \emph{stable simplicial model structure} on $p\sS$. We can now define the stable simplicial model structure on $\sS$ by the following definitions.
+
+\begin{defn}
+Let $f \colon D \rtarr E$ be a map in $\sS$. We say $f$ is a stable simplicial cofibration, weak equivalence, or fibration if it one in the stable simplicial model structure on $p\sS$.
+\end{defn}
+
+\noindent The small objects argument used in \cite{Hu03} can be applied to the above definitions again to show that they prescribe a model structure on $\sS$. We call this model structure the stable simplicial model structure on $\sS$, and we denote the associated homotopy category of $\sS$ by $\oH_s(\sS)$.\\
+
+To $\bA^1$-localize the stable simplicial model structure on $\sS$, we first introduce a notion of $\bA^1$-homotopy in $\sS$. We say that two maps $f, g \colon E \rtarr G$ in $\sS$ are $\bA^1$-homotopic if there is a map $h \colon E \wedge \bA^1_+ \rtarr G$ such that the composition of $h$ with the maps $E = E \wedge S^0 \rtarr E \wedge \bA^1_+$ sending the non-base-point of $S^0$ to $0$ and $1$ in $\bA^1$ are $f$ and $g$ respectively. We define $\bA^1$-local spectra analogous to $\bA^1$-local spaces
+
+\begin{defn}
+A spectrum $G \in \sS$ is termed $\bA^1$-local if for every $E \in \sS$, the map $E \wedge \bA^1_+ \rtarr E$ induced by the projection map $\bA^1_+ \rtarr S^0$ induces a bijection of homotopy classes:
+\[[E,G]_{\oH_s(\sS)} \rtarr [E \wedge \bA^1_+, G]_{\oH_s(\sS)}\]
+\end{defn}
+
+\begin{defn}
+Let $f \colon E \rtarr E'$ be a map in $\sS$. We say that $f$ is an:
+\begin{enumerate}
+\item $\bA^1$-cofibration if it is a stable simplicial cofibration.
+\item $\bA^1$-weak equivalence if for every $\bA^1$-local $G$, the map of homotopy classes $[E',G]_{\oH_s(\sS)} \rtarr [E,G]_{\oH_s(\sS)}$ is a bijection.
+\item $\bA^1$-fibration if it satisfies the RLP with respect to every acyclic $\bA^1$-cofibration.
+\end{enumerate}
+\end{defn}
+
+The above definitions form a model structure on $\sS$ that we call the \emph{stable $\bA^1$-local model structure} on $\sS$. The proof of this fact (as shown in \cite{Hu03}) is mainly due to Thm. 2.2.21 in \cite{MV99}, the Joyal trick presented in \cite{Jardine87simppr}, and small object arguments. The first three model structure axioms (denoted CM1-CM3 classically) are easy to see (these corresponds to (co)completeness, the two out of three property of weak equivalences, and closure under retracts). By definition, any $\bA^1$-fibration has the RLP with respect to acyclic $\bA^1$-cofibrations. The Joyal trick is used to show that acyclic $\bA^1$-fibrations have the RLP with respect to $\bA^1$-cofibrations. To see that every map factors into an acyclic $\bA^1$-cofibration and an $\bA^1$-fibration requires the small object arguments. The factorization of every map into an $\bA^1$-cofibration and an acyclic $\bA^1$-fibration follows from the corresponding fact in the simplicial model structure. We denote by $\oH(\sS)$ the homotopy category of $\sS$ associated to the stable $\bA^1$-local model structure. We will recall properties of homotopy colimits in $\sS$ as the need comes up. We record the following key characterization of $\bA^1$-local spectra and of $\bA^1$-weak equivalences due to \cite{Hu03}.
+
+\begin{thm}
+A spectrum $G$ is $\bA^1$-local iff for every $X \in \mathrm{Spc}(S)$ that is a finite colimit of smooth schemes over $S$, and for every $V \in \oC(\oU)$, the map $[\SI^{\oU}_V X_+, G]_{\oH_s(\sS)} \rtarr [\SI^{\oU}_{V}X_+ \wedge \bA^1_+, G]_{\oH_s(\sS)}$ induced by the projection $\bA^1_+ \rtarr S^0$ is a bijection.
+\end{thm}
+
+\begin{thm}\label{thm:2.2}
+A map $f \colon G \rtarr G'$ in $\sS$ is an $\bA^1$-weak equivalence iff for every $X \in \mathrm{Spc}(S)$ that is a finite colimit of smooth schemes over $S$, and $V \in \oC(\oU)$, the induced map: $[\SI^{\oU}_V X_+, G]_{\oH(\sS)} \rtarr [\SI^{\oU}_V X_+, G']_{\oH(\sS)}$ is a bijection.
+\end{thm}
+
+We now define connective spectra. Let $\sS_C$ denote the smallest full subcategory of $\sS$ containing all suspension spectra of smooth schemes over $S$ that is closed under homotopy colimits and extensions. Equivalently $\sS_C$ is generated by colimits and extensions of $\SI^{\infty}_+ X$ for $X \in \mathrm{Sm}_S$ (here $\SI^{\infty}_+ X$ is used as shorthand for $\SI^{\infty}X_+$). The objects of $\sS_C$ are referred to as very effective spectra in literature (see \cite{SO12veff} Defn. 5.5), but we call them \emph{$\OM^{\infty}$-connective spectra} or \emph{connective spectra} for short. $\sS_C$ is not a triangulated category itself, but it forms the homologically positive part of a $t$-structure on $\sS$. It is symmetric monoidal however under the smash product. It is of course trivial, by Prop. \ref{prop:1.1}, that $\SI^{\infty} \colon \sT \rtarr \sS$ takes values in $\sS_C$. We now show that $\OM^{\infty}$ and $\SI^{\infty}$ preserve weak equivalences.
+
+\begin{prop}
+If $f \colon X \rtarr Y$ be a weak equivalence in $\sT$, then $\SI^{\infty}f \colon \SI^{\infty} X \rtarr \SI^{\infty} Y$ is a weak equivalence in $\sS$.
+\end{prop}
+\begin{proof}
+Let $f \colon X \rtarr Y$ be a weak equivalence in $\sT$, so that for every $\bA^1$-local space $Z$, the induced map $[Y,Z]_{\oH_s(\sT)} \rtarr [X,Z]_{\oH_s(\sT)}$ is an isomorphism. Let $E$ be an arbitrary $\bA^1$-local spectrum in $\sS$. Note that $\OM^{\infty}E = E_{\oU}$ is $\bA^1$-local in $\sT$. This is because for every $W \in \sT$, $[\SI^{\infty}W,E] \rtarr [\SI^{\infty}W \wedge \bA^1, E]$ (induced by the projection) is an isomorphism. By the adjunction then, we can see that $[W,E_{\oU}] \rtarr [W \wedge \bA^1, E_{\oU}]$ (again induced by the projection) is an isomorphism. Now we know that $[Y,E_{\oU}]_{\oH_s(\sT)} \rtarr [X,E_{\oU}]_{\oH_s(\sT)}$ is an isomorphism. Passing to the adjunction, we have that $[\SI^{\infty}Y,E]_{\oH_s(\sS)} \rtarr [\SI^{\infty}X,E]_{\oH_s(\sS)}$ is an isomorphism as well. 
+\end{proof}
+
+The analogous result for $\OM^{\infty}$ follows from Thm. \ref{thm:2.2} and Thm. \ref{thm:1.1}
+\begin{prop}\label{prop:2.3}
+If $g \colon E \rtarr E'$ is a weak equivalence in $\sS$, then $g_{\oU} \colon E_{\oU} \rtarr E_{\oU}'$ is one in $\sT$.
+\end{prop}
+%fix
+
+Moreover, a stronger result holds in the case of connective spectra.
+\begin{prop}
+Let $g \colon E \rtarr E'$ be a map between connective spectra in $\sS$. $g$ is a weak equivalence in $\sS$ iff $g_{\oU} \colon E_{\oU} \rtarr E'_{\oU}$ is one in $\sT$. 
+\end{prop}
+\begin{proof}
+It suffices to begin with $g_{\oU} \colon E_{\oU} \rtarr E'_{\oU}$ being a weak equivalence in $\sT$, in light of the previous proposition. Furthermore, we may restrict to suspension spectra $E = \SI^{\infty} Y$ and $E' = \SI^{\infty}Y'$. Now note that for every $V \in \oC (\oU) \setminus \{\oU\}$, and for every $X$ a finite colimit of smooth schemes, $[\SI^{\oU}_V X_+, \SI^{\infty}Y] \iso [\SI^{\oU}_V X_+, \SI^{\infty}Y] \iso *$. This is due to the connectivity of suspension spaces. The claim then follows from Prop. \ref{prop:2.3}.
+\end{proof}
+%fix
+
+\section{Simplicial objects}\label{sec:simpob}
+In this section we present the properties of simplicial objects in $\sT$ and $\sS$ that are essential to the result of Part \ref{part:1}. We have denoted by $s\sV$ the category of simplicial objects in a category $\sV$. In particular, $s\sT = \ssSh((\mathrm{Sm}_S)_{Nis})$, the category of bisimplicial sheaves on $\mathrm{Sm}_S$. In order to prescribe realization functors $|-| \colon s\sT \rtarr \sT$ and $|-| \colon s\sS \rtarr \sS$, we must first record our choice of the cosimplicial objects in $\sT$ and $\sS$. There is a convenient choice in the case of $\sT$. Let $\DE[*]$ denote the cosimplicial object in $\mathrm{sSet}$ given by $\DE[n]=\Hom_{\DE}(-,\mathbf{n})$, thought of as a cosimplicial object in the category of simplicial sheaves $\sT$. The typical prescription, noting that $\sT$ is tensored over itself, then leads us to define $|K_*| = K_* \otimes_{\DE} \DE[*]$ for $K_* \in s\sT$. The realization functor here however takes a much simpler form due to the bisimplicial nature of simplicial spaces. For $K_* \in s\sT$, thought of a bisimplicial sheaf $K_{*,*}$, we have that $|K_*|$ is isomorphic to the diagonal simplicial sheaf $d(K)_n = K_{n,n}$. By the usual yoga, since $\sT$ is cotensored over itself, $|-| \colon s\sT \rtarr \sT$ is a left adjoint functor with right adjoint $\bS \colon \sT \rtarr s\sT$ given by $\bS(X)_q = F(\DE[q],X)$ where $F(-,-)$ is the cotensor functor $\sT^{\mathrm{op}} \times \sT \rtarr \sT$. Since $\sS$ is tensored and cotensored over $\sT$, our choice of the cosimplicial objects in $\sT$ yields the realization functor $|-| \colon s\sS \rtarr \sS$ given by $|E_*| = E_* \otimes_{\DE} \DE[*]$ for simplicial spectra, and its right adjoint (which we also denote $\bS \colon \sS \rtarr s\sS$) given by $\bS(E)_q = F(\DE[q],E)$ (as in the case of spaces, $F$ is used to denote the cotensor functor $\sT^{op} \times \sS \rtarr \sS$).
+
+\begin{prop}\label{prop:3.1}
+If $h_*$ is a homotopy between simplicial maps $f_*, g_* \colon K_* \rtarr L_*$ in $s\sT$, then $|h_*|$ determines a homotopy between maps $|f_*|, |g_*| \colon |K_*| \rtarr |L_*|$ in $\sT$. The corresponding statement for $\sS$ also holds true.
+\end{prop}
+\begin{proof}
+The notion of a simplicial homotopy here is that of \cite{may67simpob}. It is important to first note that $|-|$ preserves finite products since $\sT$ (likewise $\sS$) is cartesian closed and since $|-|$ preserves products of representables. The proof of this fact is purely formal, beginning from the co-Yoneda lemma. In the case of $\sT$, by Prop. 6.2 \cite{may67simpob} there exists $H_* \colon \DE[1] \times K_* \rtarr L_*$ defined as follows. For $x \in K_*(U)$ (for $U \in \mathrm{Sm}_S$), we define $H_*((0),x)=g_*(x)$, $H_*((1),x) = f_*(x)$ (here $(0)$ denotes any simplex of $\pa_1\DE[1]$ and $(1)$ any simplex of $\pa_0\DE[1]$), and $H_q(s_{q-1} \cdots s_{i-1} s_{i+1} \cdots s_0 \mathbf{1},x) = \pa_{i+1}h_i(x)$ for each $0 \leq i \leq q-1$. $H_*$ constructed in this way is not only a map of simplicial sets but also one of simplicial spaces since $h_i$ and $\pa_{i+1}$ are morphisms in $\sT$. Finally, it remains to note that $|\DE[1]|$ is isomorphic to $\bA^1$, so that the composite $\bA^1 \times |K_*| \xrightarrow{\sim} |\DE[1]| \times |K_*| \xrightarrow{\sim} |\DE[1] \times K_*| \xrightarrow{|H_*|} |L_*|$ provides the required homotopy. The story for spectra is gravely similar.\footnote{The proof here is almost identical to that of Cor. 11.10 in \cite{May72}, and might be formalized to a more general context -- for example to a cartesian closed concrete category with a notion of homotopy} %gravely?
+\end{proof}
+
+Since $\SI^{\infty}$ is a left adjoint functor, it commutes with the colimits that build $|-| \colon s\sT \rtarr \sT$. Thanks to this observation, we obtain:
+
+\begin{prop}\label{prop:3.2}
+There exists a natural isomorphism $\SI^{\infty}|K_*| \iso |\SI^{\infty}K_*|$ for each $K_* \in s\sT$ (where the suspension spectrum is taken levelwise on the right hand side)
+\end{prop}
+
+Recall that a simplicial object $X_* \in s\sV$ for a category $\sV$ is called \emph{Reedy cofibrant} if the latching maps $sX_q = \coprod_{0 \leq j \leq q} s_j X_q \monoto X_{q+1}$ are cofibrations for each $q$. As in \cite{May09Einfty} we implicitly assume that our spaces are nondegenerately based (i.e. that for each based space $X$, the basepoint inclusion $S \rtarr X$ is a cofibration). So in this case every simplicial space is Reedy cofibrant. %for $\sT$ I believe every simplicial space should be Reedy cofibrant.
+The following is derived from a general model-theoretic fact first due to \cite{reedy73}. The presentation here is inspired from \cite{may74perm}. 
+
+\begin{prop}
+$|-|$ preserves weak equivalences between Reedy cofibrant objects in $s\sT$ and $s\sS$.
+\end{prop}
+
+There are several (equivalent) ways to define weak equivalences in $s\sT$ and $s\sS$ --  the reader may choose to define them as maps whose Kan fibrant replacements are homotopy equivalences. The proof of the above theorem relies on the gluing theorem of Brown in \cite{Brown06topgrp}.
+
+\begin{thm}\label{thm:3.1}
+Suppose given a commutative diagram:
+\[\xymatrix@-0.5pc{
+& X \ar[rr]^g \ar '[d]^j [dd]^<f & & Z \ar[dd]^{\overline{j}}\\
+A \ar[dd]_{i} \ar[rr] \ar[ur]^{\alpha} &  & C \ar[dd] \ar[ur]_{\beta} &\\
+& Y \ar '[r]_{\overline{g}} [rr]^<{\overline{i}} & & W\\
+B \ar[ur]^{\ga} \ar[rr]_{\overline{f}} & & D \ar[ur]_{\delta} &
+}\]
+\noindent that $i$ and $j$ are cofibrations, and that the front and back squares are pushouts. If $\alpha$, $\beta$, and $\gamma$ are homotopy equivalences, then so is $\delta$.
+\end{thm}
+
+\begin{proof}[Proof of Prop. 3.3] As before, we provide the proof for spaces first -- the proof for spectra is nearly identical and is hence omitted. Let $f_* \colon X_* \rtarr X'_*$ be a map of Reedy cofibrant spaces. We have the following pushout square for each $q$:
+\[
+\xymatrix{
+(sX_q \times \DE[q+1]) \sqcup_{sX_q \times \pa \DE[q+1]} (X_{q+1} \times \DE[q+1]) \ar[r]^-g \ar[d] & F_q|X| \ar[d]\\
+X_{q+1} \times \pa \DE[q+1] \ar[r] & F_{q+1}|X|.
+}
+\]
+\noindent Here the standard map $g(s_i x, u) = [x,\si_i u]$ and $g(x,\de_i v) = [\pa_i x, v]$ is used (the prescription of the map here is interpreted to be given at an arbitrary element of the site $U \in \mathrm{Sm}_S$). $F_q|X|$ denotes the $q$th piece of the natural filtration on $|X|$, given by capping off the tensor product defining $|X|$ at the $q$-simplices. Alternatively, one might take the above to be the definition of $F_q|X|$ inductively (with $F_0|X|=X_0$) so that $|X| = \varinjlim F_q |X|$. There is also a similar square for $X'_*$ of course. Proceeding inductively and applying Thm. \ref{thm:3.1}, we see it suffices to show that $f_q \colon sX_q \rtarr sX'_q$ is a homotopy equivalence for each $q$. For each $0 \leq k \leq q$ let $s^k X_q = \coprod_{0 \leq j \leq k} s_j X_q$. We obtain the following commutative diagram with a pushout square on the right side: \[\xymatrix{
+s^{k-1} X_{q-1} \ar[d] \ar[r]^-{s_k}_-{\sim} & s^{k-1}X_{q} \cap s_k X_q \ar[r] \ar[d] & s^{k-1}X_q \ar[d]\\
+X_q \ar[r]^{s_k}_{\sim} & s_k X_q \ar[r] & s^k X_q
+}\]
+\noindent Proceeding by induction on $q$, assuming that each $s^{k-1}X_{q-1} \rtarr s^{k}X_{q-1}$ is a cofibration for each $0 < k < q$, we conclude that $s^{k-1}X_q \rtarr s^{k}X_q$ is a cofibration (this is because if $(X,B)$ is an NDR-pair and $(B,A)$ is an NDR-pair, then so is $(X,A)$). The same is true of $X'$. Since we know $s_0 \colon X_q \rtarr s_0 X_q$ is an isomorphism, $f_{q+1} \colon s^0 X_q \rtarr s^0 X'_q$ must be a homotopy equivalence. By induction on $q$, and induction on $k$ having fixed $q$, and \ref{thm:3.1}, we know that $f_{q+1} \colon s^k X_q \rtarr s^k X'_q$ is a homotopy equivalence for all $k$ and $q$. 
+\end{proof}
+
+The following is clear from Prop. \ref{prop:3.2}, our definition of connective spectra, and the fact that $|-|$ is a left adjoint. Alternatively, if one defines homotopy sheaves of spectra as being certain direct limits of homotopy sheaves of spaces, then since $|-|$ is a left adjoint, it commutes with those direct limits. The proposition is clear once again if one takes connective spectra to be spectra with certain vanishing homotopy sheaves. 
+\begin{prop}
+$|-| \colon s\sS \rtarr \sS$ takes levelwise connective spectra to connective spectra.
+\end{prop}
+
+We conclude with the most significant result of the section. 
+\begin{prop}\label{prop:3.5}
+The map $\ga \colon |\OM^{\infty} E_*| \rtarr \OM^{\infty}|E_*|$ given by the adjoint to the composite $\SI^{\infty}|\OM^{\infty}E_*| \iso |\SI^{\infty} \OM^{\infty}E_*| \xrightarrow{|\epz|} |E_*|$ is, for levelwise connective $E_*$, a weak equivalence in $\sT$.
+\end{prop}
+
+An important distinction from the theory of operadic monads must be made here. Generally speaking, a monad $\bC$ coming from an operad commutes with $|-|$ up to isomorphism by the categorical Fubini theorem. For the adjunction monad however, as we have seen above, $\OM^{\infty}$ commutes with $|-|$ only up to weak equivalence -- and therefore $\GA$ commutes with $|-|$ only up to weak equivalence.\\
+
+We prove Prop. \ref{prop:3.5} by reducing to $n$-fold and singlefold loop spaces first, and then passing to the colimit. For $X \in \sT$ denote by $\OM X$ the hom-space $\underline{\Hom}_{\sT}(S^{\bA^1},X)$ (where $S^{\bA^1} = \bA^1/(\bA^1 - \{0\})$). Denote by $\OM^n X$ the hom-space $\underline{\Hom}_{\sT}(S^{\bA^n},X)$ (where $S^{\bA^n} = \bA^n/(\bA^n-\{0\})$. $\OM^n$ (as seen by the loop-suspension adjunction) is clearly the $n$-fold composition of $\OM$ with itself. There is a map $|\OM^n X_*| \rtarr \OM^n|X_*|$ again given by the adjoint to $\SI^n|\OM^n X_*| \iso |\SI^n\OM^n X_*| \xrightarrow{|\epz|} |X_*|$ (here $\SI^n(-) = - \wedge S^{\bA^n}$) which we also call $\gamma$.
+
+\textcolor{red}{
+Some notes about $\Ex$. For each $k$, define $\sd \DE[k]$ to be the nerve of the poset of the non-degenerate subsimplices in $\DE[k]$. Define a functor $\mathrm{Ex} \colon s\sT \rtarr s\sT$ given by $(\mathrm{Ex}X_*)_k = \Hom_{s\sT} (\sd \DE[k], X_*)$. There is a natural map $X_* \rtarr \mathrm{Ex} X_*$, leading to an inductive system $X_* \rtarr \mathrm{Ex} X_* \rtarr \mathrm{Ex}^2 X_* \rtarr \cdots$. Define the functor $\Ex \colon s\sT \rtarr s\sT$ to be the colimit over this system, $\Ex X_* = \colim_n \mathrm{Ex}^n X_*$. There is a natural acyclic cofibration $X_* \rtarr \Ex X_*$. Moreover, $\Ex X_*$ is fibrant in $s\sT$. 
+}
+
+\begin{lem}\label{lem:3.1}
+If $X_* \in s\sT$ is Reedy cofibrant and each $X_q$ is connected, then $\gamma \colon |\OM X_*| \rtarr \OM|X_*|$ is a weak equivalence in $\sT$.
+\end{lem}
+\todo[color=green!40]{Caveat resolved, I think! Lemma is true as stated. Just pass to fibrant replacements, then use two out of three.}
+
+We first note that Lem. \ref{lem:3.1} allows us to conclude Prop. \ref{prop:3.5}. Of course, iteratively applying the above lemma tells us that $\ga^n \colon |\OM^n X_*| \rtarr \OM^n|X_*|$ is a weak equivalence for Reedy cofibrant $X_*$ with connected $X_q$. The idea now is that (under the assumptions on $E_*$) the map $\ga \colon |\OM^{\infty} E_*| \rtarr \OM^{\infty}|E_*|$ can be identified with the colimit of the maps $\ga^n \colon |\OM^n (E_n)_*| \rtarr \OM^n|(E_n)_*|$, so that Prop. \ref{prop:3.5} follows from the above remark by passing to colimits. We must clarify the notation used. We have written $E_n$  to mean $E_{\oU/\bA^n}$ -- the \emph{sequential} indexing here is chosen purely for simplicity. Note that each $(E_n)_*$ is a simplicial space, and $\OM^n (E_n)_*$ is compatibly isomorphic to $(E_0)_*$, so that the colimit of $|\OM^n (E_n)_*|$ is identified with $|\OM^{\infty}E_*|$. By a remark made after Prop. \ref{prop:2.1}, for $E_* = LT_*$, we can compute the colimit of $\OM^n |(E_n)_*|$ as $\OM^{\infty} |L T_*| \iso \OM^{\infty} L|T_*|$, where the realization of a simplicial prespectrum is defined as the levelwise realization -- so that the needed observation follows by working at the prespectrum level.\\
+
+The problem reduces to proving Lem. \ref{lem:3.1}. We now provide a precise reformulation of the claim that emphasizes what is needed.
+\begin{lem}
+Let $X_* \in s\sT$, then $|PX_*|$ is contractible, and there are natural morphisms $\ga$ and $\de$ making the following diagram commute:
+\[
+\xymatrix{
+|\OM X_*| \ar[r]^{\subset} \ar[d]_{\ga} & |PX_*| \ar[d]_{\de} \ar[r]^{|p_*|} & |X_*| \ar@{=}[d]\\
+\OM |X_*| \ar[r]^{\subset} & P|X_*| \ar[r]^p & |X_*|.
+}
+\]
+\noindent Moreover, if $X_*$ is fibrant, Reedy cofibrant, and levelwise connected, then there is a homotopy fiber sequence $\xymatrix@1{|\OM X_*| \ar[r] & |PX_*| \ar[r]^{|p_*|} & |X_*|}$, and therefore $\ga \colon |\OM X_*| \rtarr \OM|X_*|$ is a weak equivalence.
+\end{lem}
+
+\noindent We have used the standard notation $PY$ to denote the path-space of $Y \in \sT$, defined by $\underline{\Hom}_{\sT} (\bA^1_+, Y)$ (the simplicial version $PY_*$ for $Y_* \in s\sT$ is defined by taking the levelwise path-space). We outline the proof of the first part here. Firstly, we note that there is a natural contracting homotopy equivalence $h \colon PY \rtarr *$ given by $\phz \mapsto \phz \circ \iota_0$ (here $\iota_0 \colon S \rtarr \bA^1_S$ denotes the inclusion of $S$ as the basepoint 0 of $\bA^1_+$ and we identify the composite $S \rtarr Y$ with the basepoint of $Y$). This homotopy, applied to each $PX_q$, descends to a simplicial contracting homotopy $\DE[1] \times PX_* \rtarr PX_*$. By Prop. \ref{prop:3.1}, we conclude that $|PX_*|$ is indeed contractible. We are left with defining $\de \colon |PX_*| \rtarr P|X_*|$. Everything that follows in this paragraph fixes an arbitrary $U \in \mathrm{Sm}_S$, and work over this $U$ implicitly. For $f \in PX_q$, $u \in \DE[q]$, and $t \in \bA^1$, define $\de[f,u](t)=[f(t),u]$. $\de$ is a well-defined morphism in $\sT$, and it indeed makes the diagram in question commute. In some sense, this definition of $\de$ was the only sensible choice we had. There is categorical reason for this. The functors $- \wedge \bA^1_+$ and $P(-)$ are adjoint to each other. The map $\de \colon |PX_*| \rtarr P|X_*|$ is the one obtained from $|PX_*| \wedge \bA^1_+ \iso |(PX \wedge \bA^1)_*| \xrightarrow{|\epsilon_*|} |X_*|$ where $\epsilon \colon PX \wedge \bA^1 \rtarr X$ is the counit map.\\
+
+What remains is the following, the first part of which is an instance of D. Anderson's more general result in \cite{anderson78fib}. We prove it here by specializing his methods to our context -- setting aside generalities as needed.
+
+\begin{thm}\label{thm:3.2and}
+If $p_* \colon E_* \rtarr B_*$ is a fibration in $s\sT$ with fiber $F_*$, and $B_*$ is Reedy cofibrant and levelwise connected, then $\xymatrix@1{|F_*| \ar[r] & |E_*| \ar[r]^{|p_*|} & |B_*|}$ is a homotopy fiber sequence. Moreover, $p_* \colon PX_* \rtarr X_*$ is a fibration in $s\sT$ with fiber $\OM X_*$, leading us to conclude that $\xymatrix@1{|\OM X_*| \ar[r] & |PX_*| \ar[r]^{|p_*|} & |X_*|}$ is a homotopy fiber sequence (when $X_*$ is fibrant, Reedy cofibrant, and levelwise connected).
+\end{thm}
+
+We must first define what we mean by a fibration $p_* \colon E_* \rtarr B_*$ in $\sT$.
+This definition follows that of Reedy for the model structure on $s\aC$ given a model category $\aC$ -- using coskeletons. Namely, a map $p_* \colon E_* \rtarr B_*$ is a fibration in $s\sT$ if for each $m$, the induced map $E_{m+1} \rtarr \mathrm{cosk}_m(E)_{m+1} \times_{\mathrm{cosk}_m(B)_{m+1}} B_{m+1}$ is a fibration in $\sT$. \textcolor{red}{Missing proof of why $p_* \colon PX_* \rtarr X_*$ is a fibration for fibrant $X_* \in s\sT$. But this is well-handled (using axioms of simplicial model categories and power fibrant $X_*$ by the $\DE[0] \coprod \DE[0] \iso \partial \DE[1] \monoto \DE[1]$ cofiber sequence). I think Thm. 3.2 does not apply beyond fibrant objects -- as confirmed by P. Goerss -- but we can use the fibrant replacement $\Ex$ to extract Lemma 3.1.1. In particular, for any $X_*$, Lem. 3.1.2 holds true for $\Ex X_*$. We can pass to the weak equivalence $X_* \rtarr \Ex X_*$ to construct a weak equivalence $|\OM X_*| \rtarr \OM |X_*|$ using the two out of three property.} 
+\begin{proof}[Proof of Thm. 3.2]
+We are trying to determine when the realization of a map of bisimplicial sheaves $p_* \colon E_* \rtarr B_*$ is a fibration. To figure out when $|p_*|$ is a fibration (by the adjunction), it suffices to know whether $p_*$ has the right lifting property (RLP) with respect to $\bS \io$ for every acyclic cofibration $\io$ in $\sT$. Given an $X_* \in s\sT$, by $X_n$, we mean the space (alias simplicial sheaf) given by $(X_n)_* = X_{n,*}$. As a consequence of the Yoneda lemma, we have that $X_n = \Hom(\DE[\mathbf{n}], X)_0$.\footnote{We think of $s\sT$ equipped with the Reedy model structure as a model category enriched over finite simplicial sets. Let $\Hom$ denote the cotensoring associated to this enrichment.} Hereforth we will write $\mathrm{Hom}(A,B)$ to mean $\Hom(A,B)_0$ for $A$ a finite simplicial set, and $B \in s\sT$. The enriched model structure tells us that a map $p \colon E \rtarr B$ is a fibration in $s\sT$ iff for every cofibration $i \colon X \rtarr Y$ of finite simplicial sets, the induced map \[\Hom(X,E) \rtarr \Hom(X,E) \times_{\Hom(X,B)} \Hom(Y,B)\]
+\noindent is a fibration. We say that $p$ is an epifibration if the above induced map is an \emph{epimorphism} for every acyclic cofibration $\iota \colon X \rtarr Y$ of finite simplicial sets. We first show that if $p \colon E \rtarr B$ is an epifibration of simplicial spaces then $|p| \colon |E| \rtarr |B|$ is a fibration. We will later find that in the cases we are interested in, $p$ is indeed an epifibration.\\
+
+We will say that a map $i \colon X \rtarr Y$ is an \emph{epicofibration} iff it has the left lifting property (LLP) with respect to every epifibration. Note that every acyclic cofibration is an epicofibration since every epifibration is a fibration. We will later use the fact that if $i \colon X \rtarr Y$ is a cofibration of simplicial sets, $j \colon K \rtarr L$ is an acyclic cofibration then the induced map $(X \sma L) \sqcup^{(X \sma K)} (Y \sma L)$ is an epicofibration. We also note that for every cofibration $i \colon X \rtarr Y$ and weakly contractible simplicial set $T$, $X \sma T \rtarr Y \sma T$ is an epicofibration. \textcolor{red}{Why?}
+\todo[color=red!40]{Incomplete. Will work on this asap.}
+\end{proof}
+
+\section{The motivic homotopical monadicity theorem}\label{sec:htpymonad}
+
+\part{Group completions and the Barratt-Eccles operad}\label{part:2}
+\section{The Barratt-Eccles operad}\label{sec:be}
+We adapt the work of \cite{Barratt1974oper} and \cite{Barratt1974oper2} to the motivic context here, developing as much as we can conceptually. Let $\aE$ denote the indiscrete category functor $\aE \colon \mathbf{Set} \rtarr \mathbf{Cat}$ which takes each set to the the indiscrete category on that set. The Barratt-Eccles operad $\sP$ is defined by $\sP(j) = N \aE \SI_j$ for $j \geq 0$. Thinking of simplicial sets as spaces in $\sT$, the operad $\sP$ can be thought of as acting on spaces. Let $\bP$ denote the associated monad on $\sT$, defined by $\bP X := \sP(*) \ten_{\LA} X^*$. We would like to say that the adjunction pair $(\SI^{\infty},\OM^{\infty})$ and the monad $\bP$ satisfy Assumption A in \cite{kong2024group} -- but this is not true. For an arbitrary $E \in \sS$, the space $\OM^{\infty}E$ is a priori only a $\bP$-algebra up to homotopy (i.e. it does not admit a well-defined $\bP$-action). Since $\sS$ is tensored over $\sT$, there is an induced monad $\ol{\bP}$ on $\sS$ defined by $\ol{\bP} E := \sP(*) \ten_{\LA} E^*$. The monad $\ol{\bP}$ admits the following alternative description.
+
+\begin{prop}
+Let $\ol{\bP}_p \colon \sS \rtarr p\sS$ denote the functor given by $(\ol{\bP}_p E)_U = \bP E_U$ for each $U \in \oC(\oU)$. The functor $L \ol{\bP}_p$ is isomorphic to $\ol{\bP}$ as monads on $\sS$. 
+\end{prop}
+\begin{proof}
+\textcolor{red}{Details have been checked, just need to write them down here.}
+\end{proof}
+
+The following result connects our conceptual definition to the context of \cite{Barratt1974oper2}.
+
+\begin{prop}
+For each $E \in \sS$, there is a natural isomorphism $\OM^{\infty} \ol{\bP} E \iso \colim_{(V,Z) \in \oU \downarrow \oC(\oU)} \OM^{Z}\bP E_V$.
+\end{prop}
+\begin{proof}
+\textcolor{red}{Details have been checked, just need to write them down here.}
+\end{proof}
+
+To better understand the $\bP$-structure of infinite loop spaces, we must first understand the relationship between the monads $\ol{\bP}$ and $\bP$. We will find that for every $\ol{\bP}$-algebra $E$ in $\sS$, $\OM^{\infty}E$ admits a $\bP$-algebra structure. The latter half of this section discusses how the composite functor $\OM^{\infty} \ol{\bP}$ serves as a homotopic replacement of $\OM^{\infty}$ so that $\OM^{\infty}\ol{\bP} E$ is equipped with a canonical $\bP$-algebra structure.\\
+
+Recall that an op-lax map of monads $(F,\alpha)$ from a monad $(\bC,\mu,\et)$ on $\aC$ to a monad $(\bD,\nu,\ze)$ on $\aD$ is defined by a functor $F \colon \aC \rtarr \aD$ and a natural transformation $\alpha \colon F \bC  \rtarr \bD F$ such that the following diagrams commute.
+\[
+\xymatrix{
+F \bC \bC  \ar[r]^{\alpha\bC} \ar[d]_{F \mu}& \bD F \bC \ar[r]^{\bD \alpha} &  \bD \bD F\ar[d]^{\nu F}\\
+F \bC \ar[rr]_{\alpha} & & \bD F
+} \qquad 
+\xymatrix{
+& F \ar[rd]^{\ze F} \ar[ld]_{F \et} &\\
+F \bC \ar[rr]_{\alpha} & & \bD F
+}
+\]
+\noindent The dual notion of a lax map of monads $(G,\beta)$ from a monad $(\bD,\nu,\ze)$ on $\aD$ to a monad $(\bC,\mu,\et)$ on $\aC$ is defined by a functor $G \colon \aD \rtarr \aC$ and a natural transformation $\beta \colon \bC G \rtarr G \bD$ such that the following diagrams commute. 
+\[
+\xymatrix{
+\bC \bC G \ar[r]^{\bC \beta} \ar[d]_{\mu G}& \bC G \bD \ar[r]^{\beta \bD} &  G \bD \bD \ar[d]^{G\nu}\\
+\bC G \ar[rr]_{\beta} & & G \bD
+} \qquad 
+\xymatrix{
+& G \ar[rd]^{G \ze} \ar[ld]_{\et G} &\\
+\bC G\ar[rr]_{\beta} & & G \bD
+}
+\]
+
+\begin{thm}
+There is an op-lax map of monads $(\OM^{\infty},\ga)$ from $\ol{\bP}$ to $\bP$.
+\end{thm}
+
+This op-lax map is constructed by arriving at the following dual statement.
+
+\begin{lem}
+There is a lax map of monads $(\SI^{\infty},\de)$ from $\bP$ to $\ol{\bP}$.
+\end{lem}
+\begin{proof}
+\textcolor{red}{Need to write down the details.}
+\end{proof}
+
+\section{A completed adjunction}\label{sec:compl}
+\section{Grouplike objects and group completions}\label{sec:grplike}
+\section{The approximation theorem}\label{sec:approx}
+\section{An operadic recognition principle}\label{sec:berec}
+
+\nocite{*}
+\printbibliography
+\end{document}

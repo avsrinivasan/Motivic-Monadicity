@@ -1,0 +1,23 @@
+[0] Config.pm:328> INFO - This is Biber 2.21
+[0] Config.pm:331> INFO - Logfile is 'draftshort.blg'
+[53] biber-darwin:342> INFO - === Wed Jul 15, 2026, 17:47:42
+[65] Biber.pm:421> INFO - Reading 'draftshort.bcf'
+[131] Biber.pm:1002> INFO - Found 24 citekeys in bib section 0
+[141] Biber.pm:4487> INFO - Processing section 0
+[148] Biber.pm:4678> INFO - Looking for bibtex file 'biblioshort.bib' for section 0
+[150] bibtex.pm:1713> INFO - LaTeX decoding ...
+[182] bibtex.pm:1519> INFO - Found BibTeX data source 'biblioshort.bib'
+[277] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[277] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[277] Biber.pm:4307> INFO - Sorting list 'anyt/global//global/global/global' of type 'entry' with template 'anyt' and locale 'en-US'
+[277] Biber.pm:4313> INFO - No sort tailoring available for locale 'en-US'
+[294] bbl.pm:676> INFO - Writing 'draftshort.bbl' with encoding 'UTF-8'
+[299] bbl.pm:779> INFO - Output to draftshort.bbl
+[299] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 9, warning: 159 characters of junk seen at toplevel
+[299] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 78, warning: 431 characters of junk seen at toplevel
+[299] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 116, warning: 383 characters of junk seen at toplevel
+[299] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 204, warning: 383 characters of junk seen at toplevel
+[300] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 266, warning: 331 characters of junk seen at toplevel
+[300] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 384, warning: 1219 characters of junk seen at toplevel
+[300] Biber.pm:132> WARN - BibTeX subsystem: /var/folders/jz/sxy54_v907d2b3m3s_lcd93r0000gn/T/biber_tmp__SbX/224aa6a7190596817509925102337ac7_19333.utf8, line 513, warning: 1038 characters of junk seen at toplevel
+[300] Biber.pm:134> INFO - WARNINGS: 7
